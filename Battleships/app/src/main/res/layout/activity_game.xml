@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:padding="16dp"
+    tools:context=".GameActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/enemy_fleet"
+                android:textAlignment="center"
+                android:textAllCaps="true"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/enemyFleetGridView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="1dp"
+                android:background="@color/black_overlay"
+                android:clipToPadding="false"
+                android:overScrollMode="never"
+                android:padding="@dimen/item_offet" />
+
+            <!--            <GridView-->
+            <!--                android:id="@+id/enemyFleetGridView"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:background="@color/black_overlay"-->
+            <!--                android:layout_height="match_parent"-->
+            <!--                android:layout_marginEnd="1dp"/>-->
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/my_fleet"
+                android:textAlignment="center"
+                android:textAllCaps="true"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/myFleetGridView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="1dp"
+                android:background="@color/black_overlay"
+                android:clipToPadding="false"
+                android:overScrollMode="never"
+                android:padding="@dimen/item_offet" />
+
+            <!--            <GridView-->
+            <!--                android:id="@+id/myFleetGridView"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:background="@color/black_overlay"-->
+            <!--                android:layout_height="match_parent"-->
+            <!--                android:layout_marginEnd="1dp"/>-->
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

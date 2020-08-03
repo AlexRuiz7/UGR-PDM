@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/general_margin"
+    android:padding="@dimen/general_margin">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <include layout="@layout/list_item_delete_button"
+            android:id="@+id/wishlistItemDelete" />
+
+        <TextView
+            android:id="@+id/wishlistItemProductName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/general_margin"
+            android:paddingEnd="@dimen/general_margin"
+            android:layout_weight="6"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:scrollHorizontally="true"
+            android:text="@string/productNamePlaceholder"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            android:textStyle="italic" />
+
+        <TextView
+            android:id="@+id/wishlistItemPriceName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/general_margin"
+            android:paddingEnd="@dimen/general_margin"
+            android:layout_weight="2"
+            android:maxLines="1"
+            android:text="@string/productPricePlaceholder"
+            android:textAlignment="textEnd"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            android:textStyle="italic" />
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
+

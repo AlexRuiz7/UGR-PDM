@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "202556656310",
+    "firebase_url": "https://pdm-hundirlaflota.firebaseio.com",
+    "project_id": "pdm-hundirlaflota",
+    "storage_bucket": "pdm-hundirlaflota.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:202556656310:android:f2b92d68f2de3a1a5af417",
+        "android_client_info": {
+          "package_name": "ugr.pdm.battleships"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "202556656310-usp2bvo6kfiq4uaglq4s73lhgchpvkgu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ugr.pdm.battleships",
+            "certificate_hash": "d871bf8aaec8035e07e932886d8f8e6c78381ff2"
+          }
+        },
+        {
+          "client_id": "202556656310-giijcrpnjoku0so0vcshvadpotj09nbl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_2m1kV3YgLG4A5K0uJuTfrvFokyP4dpA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "202556656310-giijcrpnjoku0so0vcshvadpotj09nbl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

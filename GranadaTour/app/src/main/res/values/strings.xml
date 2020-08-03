@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">GranadaTour</string>
+    <string name="menu_home">Home</string>
+    <string name="menu_routes">Routes</string>
+    <string name="menu_places">Places</string>
+    <string name="menu_account">Account</string>
+    <string name="title_placeholder">Title</string>
+    <string name="description_placeholder">Description placeholder</string>
+    <string name="item_subtitle_placeholder">Subtitle</string>
+
+    <string name="place_image">Place Image</string>
+
+    <!-- Strings relacionados a botones   -->
+    <string name="parkings_button">Parkings</string>
+    <string name="hotels_button">Hotels</string>
+    <string name="restaurants_button">Restaurants</string>
+    <string name="location_button">Location</string>
+
+    <!--  Strings de los botones de accesibilidad  -->
+    <string name="zoom_info_text_out">Zoom info text out</string>
+    <string name="zoom_info_text_in">Zoom info text in</string>
+    <string name="place_detail_view_label">Place Detail View</string>
+    <string name="route_detail_view_label">Route Detail View</string>
+    <string name="settings_label">Settings</string>
+    <string name="dark_mode_label">Dark Mode</string>
+    <string name="account_label">Account</string>
+    <string name="email_address_hint">Email Address</string>
+    <string name="display_name_hint">Display Name</string>
+    <string name="password_hint">Password</string>
+    <string name="open_places_list_button">Open List</string>
+    <string name="open_route_map_button">Open Map</string>
+
+
+    <!-- Token de mapbox -->
+    <string name="mapbox_access_token">pk.eyJ1IjoidHJpcGlib3kiLCJhIjoiY2tjZXlmOHNpMGJpNTMzbzhtNzgwMzI3YiJ9.WXHIK4gbtWt-eM_GnSkgTQ</string>
+
+</resources>

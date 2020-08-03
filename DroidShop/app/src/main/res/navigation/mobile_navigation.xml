@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="ugr.pdm.droidshop.ui.home.HomeFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/nav_orders"
+        android:name="ugr.pdm.droidshop.ui.orders.OrdersFragment"
+        android:label="@string/menu_orders"
+        tools:layout="@layout/fragment_orders" />
+
+    <fragment
+        android:id="@+id/nav_wishlist"
+        android:name="ugr.pdm.droidshop.ui.wishlist.WishlistFragment"
+        android:label="@string/menu_wishlist"
+        tools:layout="@layout/fragment_wishlist" />
+
+    <fragment
+        android:id="@+id/nav_account"
+        android:name="ugr.pdm.droidshop.ui.account.AccountFragment"
+        android:label="@string/menu_account"
+        tools:layout="@layout/fragment_account"/>
+
+    <fragment
+        android:id="@+id/nav_login"
+        android:name="ugr.pdm.droidshop.LoginFragment"
+        android:label="@string/login_button"
+        tools:layout="@layout/fragment_login"/>
+
+    <fragment
+        android:id="@+id/nav_product"
+        android:name="ugr.pdm.droidshop.ui.products.ProductFragment"
+        android:label="@string/product_label"
+        tools:layout="@layout/fragment_product"/>
+
+    <fragment
+        android:id="@+id/nav_cart"
+        android:name="ugr.pdm.droidshop.ui.cart.CartFragment"
+        android:label="@string/shopping_cart_label"
+        tools:layout="@layout/fragment_cart"/>
+
+</navigation>

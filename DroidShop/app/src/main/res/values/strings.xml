@@ -1,0 +1,51 @@
+<resources>
+    <string name="app_name">DroidShop</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Anonymous</string>
+    <string name="nav_header_desc">Navigation header</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_orders">Your orders</string>
+    <string name="menu_wishlist">Your whislist</string>
+    <string name="menu_account">Your account</string>
+    <string name="menu_settings">Settings</string>
+    <string name="email_hint">Enter your email…</string>
+    <string name="password_hint">Enter your password…</string>
+    <string name="name_hint">Enter your name…</string>
+    <string name="register_button">Register</string>
+    <string name="login_button">Log In</string>
+    <string name="logout_button">Log Out</string>
+    <string name="delete_account_button">Delete account</string>
+    <string name="welcome_label">Welcome, </string>
+    <string name="required_field">Required</string>
+    <string name="auth_success">Account created</string>
+    <string name="auth_failed">Authentication failed</string>
+    <string name="alert_delete_account_title">Delete account?</string>
+    <string name="alert_delete_account_msg">Your account will be removed. This action can\'t be reverted. Are you sure?</string>
+    <string name="edit_button">Edit</string>
+    <string name="save_button">Save</string>
+    <string name="email_updated">Email updated</string>
+    <string name="display_name_updated">Name updated</string>
+    <string name="shopping_cart_label">Shopping Cart</string>
+    <string name="productNamePlaceholder">Title</string>
+    <string name="productInfoPlaceholder">Subtitle</string>
+    <string name="productPricePlaceholder">15,99 €</string>
+    <string name="product_label">Product</string>
+    <string name="customer_reviews_label">Customer reviews</string>
+    <string name="write_review_button">Write review</string>
+    <string name="review_text_placeholder">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris faucibus quam est. Ut eget dignissim mauris, et lobortis neque. Curabitur vitae interdum sapien, ornare aliquet orci. Praesent quis pellentesque massa, sed venenatis est. Cras hendrerit enim non purus consectetur, nec bibendum dui sollicitudin. Praesent ornare sollicitudin suscipit. Curabitur id turpis nec leo vehicula rhoncus non non velit. Nulla vehicula augue non ligula volutpat, sed malesuada tortor laoreet. Nulla facilisi. Phasellus at mi risus. Nullam vestibulum massa tortor, at sodales dolor aliquet eget. In vitae cursus tortor. Nullam ut eleifend ex, vel consectetur urna.</string>
+    <string name="review_publication_date_placeholder">Review publication date</string>
+    <string name="username_placeholder">Username</string>
+
+    <string name="wishlist_is_emtpy">Your wishlist is emtpy!</string>
+    <string name="orders_is_empty">You have no orders</string>
+    <string name="cart_is_empty">Your cart is empty!</string>
+    <string name="total_cost_label">Total:</string>
+    <string name="buy_button">Buy</string>
+    <string name="subtotal_label">Subtotal</string>
+    <string name="quantity_label">Quantity</string>
+    <string name="price_label">Price</string>
+    <string name="search_label">Search</string>
+
+</resources>

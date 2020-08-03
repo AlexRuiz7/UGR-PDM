@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_home_fragment">
+
+    <fragment
+        android:id="@+id/navigation_home_fragment"
+        android:name="ugr.pdm.granadatour.ui.home.HomeFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/navigation_routes_fragment"
+        android:name="ugr.pdm.granadatour.ui.routes.RoutesFragment"
+        android:label="@string/menu_routes"
+        tools:layout="@layout/fragment_routes" />
+
+    <fragment
+        android:id="@+id/navigation_places_fragment"
+        android:name="ugr.pdm.granadatour.ui.places.PlacesFragment"
+        android:label="@string/menu_places"
+        tools:layout="@layout/fragment_places" />
+
+    <fragment
+        android:id="@+id/navigation_account_fragment"
+        android:name="ugr.pdm.granadatour.ui.account.AccountsFragment"
+        android:label="@string/menu_account"
+        tools:layout="@layout/fragment_account" />
+
+    <fragment
+        android:id="@+id/navigation_place_detail_fragment"
+        android:name="ugr.pdm.granadatour.ui.places.PlacesDetailedViewFragment"
+        android:label="@string/place_detail_view_label"
+        tools:layout="@layout/fragment_detail_places"/>
+
+    <fragment
+        android:id="@+id/navigation_route_detail_fragment"
+        android:name="ugr.pdm.granadatour.ui.routes.RoutesDetailedViewFragment"
+        android:label="@string/route_detail_view_label"
+        tools:layout="@layout/fragment_detail_routes"/>
+
+    <activity
+        android:id="@+id/navigation_mapbox"
+        name="ugr.pdm.granadatour.MapActivity"
+        android:label="Map Activity"
+        tools:layout="@layout/activity_map_view"/>
+
+</navigation>

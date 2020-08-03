@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="0dp"
+    android:layout_height="match_parent"
+    android:layout_weight="1"
+    android:gravity="center"
+    android:orientation="horizontal"
+    tools:showIn="@layout/fragment_product">
+
+    <Button
+        android:backgroundTint="@color/colorPrimary"
+        android:id="@+id/quantityRemoveButton"
+        style="@style/square_button"
+        android:text="-" />
+
+    <TextView
+        android:id="@+id/quantityCounter"
+        android:backgroundTint="@android:color/transparent"
+        style="@style/square_button"
+        android:gravity="center"
+        android:text="0"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+    <Button
+        android:backgroundTint="@color/colorPrimary"
+        android:id="@+id/quantityAddButton"
+        style="@style/square_button"
+        android:layout_marginEnd="@dimen/general_margin"
+        android:text="+" />
+
+    <ImageButton
+        android:id="@+id/cartAddButton"
+        style="@style/square_button"
+        android:layout_marginStart="@dimen/general_margin"
+        android:backgroundTint="@android:color/transparent"
+        android:src="@drawable/ic_add_shopping_cart" />
+
+    <ImageButton
+        android:id="@+id/wishlistAddButton"
+        style="@style/square_button"
+        android:layout_marginStart="@dimen/general_margin"
+        android:backgroundTint="@android:color/transparent"
+        android:src="@drawable/ic_menu_wishlist" />
+
+</LinearLayout>

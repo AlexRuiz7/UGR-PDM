@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context="ugr.pdm.granadatour.ui.routes.RoutesDetailedViewFragment">
+
+        <ImageView
+            android:id="@+id/itemImageDetail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="false"
+            android:contentDescription="@string/place_image" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/itemImageDetail"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <TextView
+                android:id="@+id/itemTitleDetail"
+                style="@style/TextAppearance.AppCompat.Headline"
+                android:layout_width="match_parent"
+                android:layout_height="75dp"
+                android:padding="8dp"
+                android:text="@string/title_placeholder"
+                android:textStyle="bold|italic"
+                app:autoSizeTextType="uniform" />
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/itemSubtitleDetail"
+                    style="@style/TextAppearance.AppCompat.Subhead"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:padding="8dp"
+                    android:text="@string/item_subtitle_placeholder"
+                    android:textColor="?android:textColorSecondary"
+                    android:textSize="20sp"
+                    app:autoSizeTextType="uniform"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageButton
+                    android:id="@+id/zoomIn"
+                    style="@style/zoomButton"
+                    android:contentDescription="@string/zoom_info_text_in"
+                    android:src="@drawable/ic_zoom_in_24dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/zoomOut"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageButton
+                    android:id="@+id/zoomOut"
+                    style="@style/zoomButton"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="end"
+                    android:contentDescription="@string/zoom_info_text_out"
+                    android:src="@drawable/ic_zoom_out_24dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/itemDescriptionDetail"
+                style="@style/TextAppearance.AppCompat.Subhead"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:justificationMode="inter_word"
+                android:padding="8dp"
+                android:text="@string/description_placeholder"
+                app:autoSizeTextType="none" />
+
+            <Button
+                android:id="@+id/open_list_button"
+                style="@style/PlaceActionButton"
+                android:layout_weight="1"
+                android:contentDescription="@string/open_places_list_button"
+                android:text="@string/open_places_list_button" />
+
+            <Button
+                android:id="@+id/open_map_button"
+                style="@style/PlaceActionButton"
+                android:layout_weight="1"
+                android:contentDescription="@string/open_route_map_button"
+                android:text="@string/open_route_map_button" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+</ScrollView>

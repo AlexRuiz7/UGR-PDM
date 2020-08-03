@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "590391086556",
+    "firebase_url": "https://pdm-droidshop.firebaseio.com",
+    "project_id": "pdm-droidshop",
+    "storage_bucket": "pdm-droidshop.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:590391086556:android:d69cbb908c941adf1e5319",
+        "android_client_info": {
+          "package_name": "ugr.pdm.droidshop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "590391086556-adj65j2ub1rg31lsauofg6appihtbv3l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ugr.pdm.droidshop",
+            "certificate_hash": "d871bf8aaec8035e07e932886d8f8e6c78381ff2"
+          }
+        },
+        {
+          "client_id": "590391086556-90bkbmc1chg286ldp5h4is3ooo1s8tm0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4hzas6SawIeXt-ojEdA-bKW8U2p_t8Bg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "590391086556-90bkbmc1chg286ldp5h4is3ooo1s8tm0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

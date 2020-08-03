@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Date Picker</string>
+    <string name="hello_world">Hello World! Choose a date</string>
+    <string name="date_button">Date</string>
+    <string name="datepicker">datePicker</string>
+    <string name="date_prefix">\"Date: \</string>
+    <string name="time_button">Time</string>
+    <string name="timepicker">timepicker</string>
+    <string name="time_prefix">\"Time: \"</string>
+</resources>

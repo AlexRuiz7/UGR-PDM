@@ -1,0 +1,38 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme.Launcher">
+        <item name="android:windowBackground">@drawable/launch_screen</item>
+    </style>
+
+    <!--  Button styles  -->
+    <style name="ActionButtons" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:backgroundTint">?android:attr/colorPrimaryDark</item>
+        <item name="android:textColor">?android:attr/colorAccent</item>
+    </style>
+
+
+    <style name="PlaceActionButton" parent="ActionButtons">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:autoSizeTextType">uniform</item>
+    </style>
+
+    <style name="DeleteActionButton" parent="ActionButtons">
+        <item name="android:textColor">@color/colorError</item>
+    </style>
+
+    <style name="zoomButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:backgroundTint">@android:color/transparent</item>
+    </style>
+
+</resources>

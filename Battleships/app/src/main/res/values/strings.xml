@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Battleships</string>
+    <string name="logout_button">Cerrar sesión</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="register_title">REGISTRO</string>
+    <string name="register_label">Por favor, introduce tu número de teléfono</string>
+    <string name="phone_prefix">"+34 "</string>
+    <string name="register_extra_label">Recibirás un SMS</string>
+    <string name="verification_title">Verificación</string>
+    <string name="verification_label">Introduce el código de verificación</string>
+    <string name="verification_hint">Código de verificación</string>
+    <string name="background">backgroundScreen.jpg</string>
+    <string name="enemy_fleet">Flota enemiga</string>
+    <string name="my_fleet">Tu flota</string>
+
+</resources>

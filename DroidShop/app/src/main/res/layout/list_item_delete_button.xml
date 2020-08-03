@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<Button xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/square_button"
+    android:layout_width="38dp"
+    android:layout_height="match_parent"
+    android:backgroundTint="@color/colorPrimaryDark"
+    android:text="X"
+    android:textColor="@android:color/white"
+    tools:showIn="@layout/wishlist_item" />
