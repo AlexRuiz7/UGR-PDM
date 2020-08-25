@@ -9,10 +9,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import androidx.appcompat.widget.SearchView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import ugr.pdm.droidshop.R;
 import ugr.pdm.droidshop.adapters.ProductAdapter;
 import ugr.pdm.droidshop.models.Product;
+import ugr.pdm.droidshop.utils.LoadingSpinner;
 
 public class HomeFragment extends Fragment {
 
@@ -83,10 +84,10 @@ public class HomeFragment extends Fragment {
      * Carga los datos desde Firebase
      */
     private void initializeData() {
-
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                LoadingSpinner.getInstance().setLoading(true);
                 mProductsData.clear();
                 for (DataSnapshot obj : snapshot.getChildren()) {
                     Product p = obj.getValue(Product.class);
@@ -95,6 +96,7 @@ public class HomeFragment extends Fragment {
                 }
                 mAdapter.notifyDataSetChanged();
                 mAdapter.copyList();
+                LoadingSpinner.getInstance().setLoading(false);
             }
 
             @Override

@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,14 +21,16 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import ugr.pdm.droidshop.utils.LoadingSpinner;
 import ugr.pdm.droidshop.utils.State;
 
-public class MainActivity extends AppCompatActivity implements State.OnAuthEventListener {
+public class MainActivity extends AppCompatActivity implements State.OnAuthEventListener, LoadingSpinner.OnLoadListener {
 
     private AppBarConfiguration mAppBarConfiguration;
     private FirebaseAuth mAuth;
     private NavigationView navigationView;
     private NavController navController;
+    private ProgressBar spinner;
 
 
     /**
@@ -56,6 +60,10 @@ public class MainActivity extends AppCompatActivity implements State.OnAuthEvent
         State.getInstance().setOnAuthChangeListener(this);
         FirebaseUser user = mAuth.getCurrentUser();
         State.getInstance().setLogged(user != null);
+
+        // Spinner
+        spinner = (ProgressBar) findViewById(R.id.loadingSpinner);
+        LoadingSpinner.getInstance().setListener(this);
     }
 
     /**
@@ -81,7 +89,6 @@ public class MainActivity extends AppCompatActivity implements State.OnAuthEvent
 
         switch (item.getItemId()) {
             case R.id.shopping_cart:
-//                Toast.makeText(this, "Shopping cart", Toast.LENGTH_SHORT).show();
                 navController.navigate(R.id.nav_cart);
             break;
 
@@ -117,10 +124,24 @@ public class MainActivity extends AppCompatActivity implements State.OnAuthEvent
         if (user != null) {
             if (textView != null)
                 textView.setText(user.getEmail());
-        }
-        else {
+        } else {
             textView.setText(getString(R.string.nav_header_title));
         }
     }
 
+    /**
+     *
+     */
+    @Override
+    public void onLoadStart() {
+        spinner.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     *
+     */
+    @Override
+    public void onLoadEnd() {
+        spinner.setVisibility(View.GONE);
+    }
 }

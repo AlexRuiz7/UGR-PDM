@@ -8,6 +8,16 @@
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
 
+    <ProgressBar
+        android:id="@+id/loadingSpinner"
+        style="?android:attr/progressBarStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="32dp"
+        android:padding="32dp"
+        android:theme="@style/AppTheme.Spinner" />
+
     <include
         layout="@layout/app_bar_main"
         android:layout_width="match_parent"

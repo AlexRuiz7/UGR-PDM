@@ -31,4 +31,8 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="AppTheme.Spinner">
+        <item name="colorAccent">@color/colorPrimary</item>
+    </style>
+
 </resources>
