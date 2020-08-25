@@ -14,13 +14,16 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
 
 import ugr.pdm.granadatour.R;
+import ugr.pdm.granadatour.utils.LoadingSpinner;
 
 public class HomeFragment extends Fragment {
 
@@ -65,6 +68,7 @@ public class HomeFragment extends Fragment {
      * Rellena el slider con las imágenes del proyecto en Firebase
      */
     private void loadSliderImages() {
+        LoadingSpinner.getInstance().setLoading(true);
         StorageReference gsReference = FirebaseStorage.getInstance().getReference();
 
         gsReference.listAll()
@@ -87,6 +91,12 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Log.e("HOME", "Storage failure");
+                    }
+                })
+                .addOnCompleteListener(new OnCompleteListener<ListResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<ListResult> task) {
+                        LoadingSpinner.getInstance().setLoading(false);
                     }
                 });
     }

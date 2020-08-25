@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import ugr.pdm.granadatour.R;
 import ugr.pdm.granadatour.adapters.RouteAdapter;
 import ugr.pdm.granadatour.models.Route;
+import ugr.pdm.granadatour.utils.LoadingSpinner;
 
 public class RoutesFragment extends Fragment {
 
@@ -62,6 +63,7 @@ public class RoutesFragment extends Fragment {
      *
      */
     private void initializeData() {
+        LoadingSpinner.getInstance().setLoading(true);
         FirebaseDatabase firebaseDB = FirebaseDatabase.getInstance();
         DatabaseReference DBref = firebaseDB.getReference();
         DatabaseReference routesRef = DBref.child("routes");
@@ -75,7 +77,9 @@ public class RoutesFragment extends Fragment {
                     Route route = routeSnapshot.getValue(Route.class);
                     mRoutesData.add(route);
                 }
+
                 mAdapter.notifyDataSetChanged();
+                LoadingSpinner.getInstance().setLoading(false);
             }
 
             @Override

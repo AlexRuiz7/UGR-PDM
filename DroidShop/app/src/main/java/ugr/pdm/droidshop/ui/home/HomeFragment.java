@@ -89,11 +89,13 @@ public class HomeFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 LoadingSpinner.getInstance().setLoading(true);
                 mProductsData.clear();
+
                 for (DataSnapshot obj : snapshot.getChildren()) {
                     Product p = obj.getValue(Product.class);
                     p.setKey(obj.getKey());
                     mProductsData.add(p);
                 }
+
                 mAdapter.notifyDataSetChanged();
                 mAdapter.copyList();
                 LoadingSpinner.getInstance().setLoading(false);

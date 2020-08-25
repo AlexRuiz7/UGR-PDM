@@ -1,6 +1,8 @@
 package ugr.pdm.granadatour;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -13,11 +15,13 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.FirebaseApp;
 import com.mapbox.mapboxsdk.Mapbox;
 
+import ugr.pdm.granadatour.utils.LoadingSpinner;
 import ugr.pdm.granadatour.utils.State;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements LoadingSpinner.OnLoadListener {
 
     private final State state = State.getInstance();
+    private ProgressBar spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,10 +31,13 @@ public class MainActivity extends AppCompatActivity {
 
         setupNavigation();
         FirebaseApp.initializeApp(this);
-
         setupThemeListener();
-
         Mapbox.getInstance(getApplicationContext(), getString(R.string.mapbox_access_token));
+
+        // Spinner
+        spinner = (ProgressBar) findViewById(R.id.loadingSpinner);
+        LoadingSpinner.getInstance().setListener(this);
+        LoadingSpinner.getInstance().setLoading(false);
     }
 
     private void setupNavigation() {
@@ -65,4 +72,16 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Spinner
+     */
+    @Override
+    public void onLoadStart() {
+        spinner.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onLoadEnd() {
+        spinner.setVisibility(View.GONE);
+    }
 }
