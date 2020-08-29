@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/friend_photo"
+        android:layout_width="@dimen/squared_thumbnail"
+        android:layout_height="@dimen/squared_thumbnail"
+        android:layout_weight="1"
+        android:contentDescription="@string/user_image_description"
+        android:src="@android:drawable/ic_menu_camera"
+        tools:background="@android:color/darker_gray">
+
+    </ImageView>
+
+    <TextView
+        android:id="@+id/friend_displayName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="2"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        tools:text="User display name" />
+
+    <ImageButton
+        android:id="@+id/friend_request_accept_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="0.5"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/friend_accept_button"
+        android:src="@android:drawable/ic_input_add" />
+
+    <ImageButton
+        android:id="@+id/friend_request_delete_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="0.5"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/friend_delete_button"
+        android:src="@android:drawable/ic_delete" />
+
+</LinearLayout>

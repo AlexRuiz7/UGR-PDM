@@ -2,32 +2,37 @@ package ugr.pdm.battleships;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.InputType;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseException;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
-import com.google.firebase.auth.PhoneAuthCredential;
-import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import java.util.concurrent.TimeUnit;
+import ugr.pdm.battleships.models.Friend;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -35,17 +40,9 @@ import java.util.concurrent.TimeUnit;
  */
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
-
-    private boolean mVerificationInProgress = false;
-    private String mVerificationId;
-
-    private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
     private FirebaseAuth mAuth;
-    private ImageView mBackground;
-    private EditText mEditText;
-    private TextView mWindowTitle;
-    private TextView mWindowText;
-    private TextView mWindowInfo;
+    private GoogleSignInClient mGoogleSignInClient;
+    private static final int RC_SIGN_IN = 9001;
 
 
     @Override
@@ -55,24 +52,30 @@ public class LoginActivity extends AppCompatActivity {
 
         initViews();
         initListeners();
-        initFirebase();
 
-        if (mAuth.getCurrentUser() != null) {
-            startGame();
-        }
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+        mAuth = FirebaseAuth.getInstance();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        // Check for existing Google Sign In account, if the user is already signed in
+        // the GoogleSignInAccount will be non-null.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        updateUI(currentUser);
+    }
 
     /**
      *
      */
     private void initViews() {
-        mEditText = findViewById(R.id.registerInput);
-        mWindowTitle = findViewById(R.id.registerTitle);
-        mWindowText = findViewById(R.id.registerText);
-        mWindowInfo = findViewById(R.id.registerInfo);
-        mBackground = findViewById(R.id.backgroundLogin);
-
+        ImageView mBackground = findViewById(R.id.backgroundLogin);
 
         StorageReference imgRef = FirebaseStorage.getInstance().getReference(getString(R.string.background));
         Glide.with(this)
@@ -84,90 +87,114 @@ public class LoginActivity extends AppCompatActivity {
      *
      */
     private void initListeners() {
+        SignInButton signInButton = findViewById(R.id.sign_in_button);
 
-        mEditText.setOnEditorActionListener(new EditText.OnEditorActionListener() {
+        signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
-                if (mEditText.getInputType() == InputType.TYPE_CLASS_PHONE) {
-                    if (actionId == EditorInfo.IME_ACTION_DONE) {
-                        String number = mEditText.getText().toString();
-                        if (validate())
-                            startPhoneNumberVerification(number);
-                    }
-                }
-                else if (mEditText.getInputType() == InputType.TYPE_CLASS_NUMBER) {
-                    verifyPhoneNumberWithCode(mVerificationId, mEditText.getText().toString());
-                }
-
-                return false;
+            public void onClick(View view) {
+                signIn();
             }
         });
+
     }
 
-    /**
-     *
-     */
-    private void initFirebase() {
-        mAuth = FirebaseAuth.getInstance();
-        mAuth.setLanguageCode("es");
-
-        // Inicialización de callbacks
-        mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
-            @Override
-            public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
-                Log.e(TAG, "onVerificationCompleted -> " + phoneAuthCredential);
-                mVerificationInProgress = false;
-                mAuth.signInWithCredential(phoneAuthCredential);
-                startGame();
-            }
-
-            @Override
-            public void onVerificationFailed(@NonNull FirebaseException e) {
-                Log.e(TAG, "onVerificationFailed -> " + e.getMessage());
-                mVerificationInProgress = false;
-//                finish();
-            }
-
-            @Override
-            public void onCodeSent(@NonNull String verificationID, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
-                Log.e(TAG, "onCodeSent -> " + verificationID);
-                mVerificationInProgress = true;
-                mVerificationId = verificationID;
-                updateUI();
-            }
-        };
+    private void signIn() {
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-    /**
-     *
-     * @return
-     */
-    private boolean validate() {
-        String number = mEditText.getText().toString();
-
-        if (!number.contains("+34")) {
-            mEditText.setError("Falta el prefijo +34");
-            return false;
+        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
+        if (requestCode == RC_SIGN_IN) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            try {
+                // Google Sign In was successful, authenticate with Firebase
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                Log.d(TAG, "firebaseAuthWithGoogle:" + account.getId());
+                firebaseAuthWithGoogle(account.getIdToken());
+            } catch (ApiException e) {
+                // Google Sign In failed, update UI appropriately
+                Log.w(TAG, "Google sign in failed", e.getCause());
+                // [START_EXCLUDE]
+                updateUI(null);
+                // [END_EXCLUDE]
+            }
         }
-        if ( number.substring(3).trim().length() != 9 ) {
-            mEditText.setError("El número debe contener 9 dígitos");
-            return false;
+    }
+
+    private void firebaseAuthWithGoogle(String idToken) {
+        // [START_EXCLUDE silent]
+//        showProgressBar();
+        // [END_EXCLUDE]
+        AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "signInWithCredential:success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            logUserOnDatabase(user);
+                            updateUI(user);
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w(TAG, "signInWithCredential:failure", task.getException());
+                            Toast.makeText(LoginActivity.this, "Authentication Failed.", Toast.LENGTH_SHORT).show();
+                            updateUI(null);
+                        }
+
+                        // [START_EXCLUDE]
+//                        hideProgressBar();
+                        // [END_EXCLUDE]
+                    }
+                });
+    }
+
+    /**
+     * @param user
+     */
+    private void logUserOnDatabase(final FirebaseUser user) {
+        final DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("users");
+
+        if (user != null) {
+            final Friend f = new Friend(
+                    user.getDisplayName(),
+                    user.getEmail(),
+                    null,
+                    user.getPhotoUrl().toString()
+            );
+
+            // Registra al usuario en la BD solo si no existe ya en ella
+            dbRef.child(user.getUid()).addListenerForSingleValueEvent(
+                    new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if (!snapshot.exists()) {
+                                dbRef.child(user.getUid()).setValue(f);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                        }
+                    }
+            );
         }
 
-        return true;
     }
+
 
     /**
      *
      */
-    private void updateUI() {
-        mWindowTitle.setText(getString(R.string.verification_title));
-        mWindowText.setText(getString(R.string.verification_label));
-        mEditText.setHint(getString(R.string.verification_hint));
-        mEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
-        mEditText.setText("");
-        mWindowInfo.setVisibility(View.GONE);
+    private void updateUI(FirebaseUser user) {
+        if (user != null) {
+            startGame();
+        }
     }
 
     /**
@@ -176,57 +203,6 @@ public class LoginActivity extends AppCompatActivity {
     private void startGame() {
         Intent intent = new Intent(LoginActivity.this, MainMenuActivity.class);
         startActivity(intent);
-    }
-
-    /**
-     *
-     * @param number
-     */
-    private void startPhoneNumberVerification(String number) {
-        PhoneAuthProvider.getInstance().verifyPhoneNumber(
-                number,             // Número a verificar
-                60,              // Timeout
-                TimeUnit.SECONDS,   // Unidad del tiemout
-                this,       // Activity
-                mCallbacks);        // OnVerificationStateChangedCallbacks
-        mVerificationInProgress = true;
-        Toast.makeText(getApplicationContext(), number, Toast.LENGTH_SHORT).show();
-    }
-
-
-    /**
-     *
-     * @param verificationId
-     * @param code
-     */
-    private void verifyPhoneNumberWithCode(String verificationId, String code) {
-        PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, code);
-        signInWithPhoneAuthCredential(credential);
-    }
-
-
-    /**
-     *
-     * @param credential
-     */
-    private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
-        mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            Log.d(TAG, "signInWithCredential:success");
-                            startGame();
-                        } else {
-                            // Sign in failed, display a message and update the UI
-                            Log.w(TAG, "signInWithCredential:failure", task.getException());
-                            if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
-                                // The verification code entered was invalid
-                                mEditText.setError("Invalid code");
-                            }
-                        }
-                    }
-                });
     }
 
 }

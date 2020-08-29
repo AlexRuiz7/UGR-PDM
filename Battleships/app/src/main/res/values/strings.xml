@@ -12,5 +12,12 @@
     <string name="background">backgroundScreen.jpg</string>
     <string name="enemy_fleet">Flota enemiga</string>
     <string name="my_fleet">Tu flota</string>
+    <string name="user_image_description">User image</string>
+    <string name="friend_delete_button">Friend delete button</string>
+    <string name="friend_search_hint">Busca usuarios por su email...</string>
+    <string name="friends_pending_label">Pendientes</string>
+    <string name="friends_label">Amigos</string>
+    <string name="friend_requests_label">Peticiones</string>
+    <string name="friend_accept_button">Aceptar</string>
 
 </resources>

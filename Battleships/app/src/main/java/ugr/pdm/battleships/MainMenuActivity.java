@@ -9,6 +9,9 @@ import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -21,20 +24,25 @@ public class MainMenuActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
 
     private FirebaseAuth mAuth;
-
-    private ImageView mBackground;
+    private GoogleSignInClient mGoogleSignInClient;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
         initFirebase();
         if (mAuth.getCurrentUser() == null) {
-            Intent registerIntent =  new Intent(MainMenuActivity.this, LoginActivity.class);
-            startActivity(registerIntent);
-        }
-        else {
+            Intent loginIntent = new Intent(MainMenuActivity.this, LoginActivity.class);
+            startActivity(loginIntent);
+        } else {
             setContentView(R.layout.activity_mainmenu);
             initViews();
             initListeners();
@@ -47,7 +55,7 @@ public class MainMenuActivity extends AppCompatActivity {
      *
      */
     private void initViews() {
-        mBackground = findViewById(R.id.background);
+        ImageView mBackground = findViewById(R.id.background);
 
         StorageReference imgRef = FirebaseStorage.getInstance().getReference(getString(R.string.background));
         Glide.with(this)
@@ -69,16 +77,10 @@ public class MainMenuActivity extends AppCompatActivity {
      *
      */
     private void initListeners() {
-        Button logoutButton = findViewById(R.id.logout_button);
         Button newGameButton = findViewById(R.id.new_game_button);
-
-        logoutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mAuth.signOut();
-                recreate();
-            }
-        });
+        Button friendsButton = findViewById(R.id.friends_button);
+        Button logoutButton = findViewById(R.id.logout_button);
+        Button exitButton = findViewById(R.id.exit_button);
 
         newGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,10 +89,40 @@ public class MainMenuActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        friendsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainMenuActivity.this, FriendsActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Firebase sign out
+                mAuth.signOut();
+                // Google sign out
+                mGoogleSignInClient.signOut();
+
+                recreate();
+            }
+        });
+
+        exitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
     }
+
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+//        finish();
+//        System.exit(0);
     }
 }
