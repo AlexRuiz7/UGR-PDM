@@ -27,7 +27,6 @@ public class FriendRequestsAdapter extends FriendsAdapter {
      */
     public FriendRequestsAdapter(ArrayList<Friend> mFriendsData, Context mContext) {
         super(mFriendsData, mContext);
-//        new ViewHolder()
     }
 
 
@@ -66,21 +65,13 @@ public class FriendRequestsAdapter extends FriendsAdapter {
                     Friend f = mFriendsData.remove(getAdapterPosition());
 
                     // Eliminar de Firebase
-//                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-//                    DatabaseReference dbref = FirebaseDatabase.getInstance().getReference("users");
                     if (mUser != null && f.getPersonId() != null) {
-                        getUserFriendRequestReference(f).removeValue();
-//                        dbRef
-//                            .child(mUser.getUid())
-//                            .child("friendRequests")
-//                            .child(f.getPersonId())
-//                            .removeValue();
+                        getUserFriendRequestReference(mUser.getUid(), f.getPersonId()).removeValue();
                     }
 
                     notifyDataSetChanged();
                 }
             });
-
 
             mAcceptButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -88,23 +79,9 @@ public class FriendRequestsAdapter extends FriendsAdapter {
                     Friend f = mFriendsData.get(getAdapterPosition());
 
                     // Actualizar de Firebase
-//                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-//                    DatabaseReference dbref = FirebaseDatabase.getInstance().getReference("users");
                     if (mUser != null && f.getPersonId() != null) {
-                        getUserFriendReference(f).setValue(true);
-//                        dbRef
-//                            .child(mUser.getUid())
-//                            .child("friends")
-//                            .child(f.getPersonId())
-//                            .setValue(true);
-
-                        getOtherUserFriendReference(f).setValue(true);
-//                        dbRef
-//                            .child(f.getPersonId())
-//                            .child("friends")
-//                            .child(mUser.getUid())
-//                            .setValue(true);
-
+                        getUserFriendReference(mUser.getUid(), f.getPersonId()).setValue(true);
+                        getUserFriendReference(f.getPersonId(), mUser.getUid()).setValue(true);
                         mDeleteButton.callOnClick();
                     }
                 }
@@ -113,6 +90,4 @@ public class FriendRequestsAdapter extends FriendsAdapter {
         }
 
     }
-
-    ;
 }

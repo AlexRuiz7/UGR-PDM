@@ -1,7 +1,6 @@
 package ugr.pdm.battleships;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.inputmethod.EditorInfo;
 import android.widget.SearchView;
 import android.widget.Toast;
@@ -26,6 +25,7 @@ import ugr.pdm.battleships.adapters.FriendRequestsAdapter;
 import ugr.pdm.battleships.adapters.FriendsAdapter;
 import ugr.pdm.battleships.models.Friend;
 
+
 public class FriendsActivity extends AppCompatActivity {
     public static final String TAG = "FRIENDS_ACTIVITY";
 
@@ -43,6 +43,7 @@ public class FriendsActivity extends AppCompatActivity {
     private FirebaseUser mUser;
 
     /**
+     * Método onCreate
      * @param savedInstanceState
      */
     @Override
@@ -58,6 +59,7 @@ public class FriendsActivity extends AppCompatActivity {
         loadFriends();
         loadFriendRequests();
     }
+
 
     /**
      * Inicializa y configura los contenedores de la vista
@@ -124,51 +126,50 @@ public class FriendsActivity extends AppCompatActivity {
                 .child(mUser.getUid())
                 .child("friends")
                 .addValueEventListener(
-                        new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                for (DataSnapshot obj : snapshot.getChildren()) {
-                                    Log.e(TAG, obj.getKey() + ": " + obj.getValue());
-                                    if (Objects.equals(obj.getValue(), true)) {
-                                        loadFriend(obj, mFriends, mFriendsAdapter);
-                                        updatePendingRequests(obj.getKey(), mPendingFriends, mPendingFriendsAdapter);
-                                    } else {
-                                        loadFriend(obj, mPendingFriends, mPendingFriendsAdapter);
-                                    }
+                    new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for (DataSnapshot obj : snapshot.getChildren()) {
+                                if (Objects.equals(obj.getValue(), true)) {
+                                    loadFriend(obj, mFriends, mFriendsAdapter);
+                                    updatePendingRequests(obj.getKey(), mPendingFriends, mPendingFriendsAdapter);
+                                } else {
+                                    loadFriend(obj, mPendingFriends, mPendingFriendsAdapter);
                                 }
                             }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-                            }
                         }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) { }
+                    }
                 );
     }
 
+
+    /**
+     * Carga las solicitudes de amistad del usuario desde Firebase
+     */
     private void loadFriendRequests() {
         mDatabaseUsersRef
                 .child(mUser.getUid())
                 .child("friendRequests")
                 .addValueEventListener(
-                        new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                for (DataSnapshot obj : snapshot.getChildren()) {
-                                    Log.e(TAG, obj.getKey() + ": " + obj.getValue());
-                                    if (Objects.equals(obj.getValue(), true)) {
-                                        Log.e(TAG, obj.getKey() + " pasa a true");
-                                        loadFriend(obj, mFriends, mFriendsAdapter);
-                                        updatePendingRequests(obj.getKey(), mFriendRequests, mFriendRequestsAdapter);
-                                    } else {
-                                        loadFriend(obj, mFriendRequests, mFriendRequestsAdapter);
-                                    }
+                    new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for (DataSnapshot obj : snapshot.getChildren()) {
+                                if (Objects.equals(obj.getValue(), true)) {
+                                    loadFriend(obj, mFriends, mFriendsAdapter);
+                                    updatePendingRequests(obj.getKey(), mFriendRequests, mFriendRequestsAdapter);
+                                } else {
+                                    loadFriend(obj, mFriendRequests, mFriendRequestsAdapter);
                                 }
                             }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-                            }
                         }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) { }
+                    }
                 );
     }
 
@@ -251,12 +252,11 @@ public class FriendsActivity extends AppCompatActivity {
      *          TODO reemplazar hardcoded string por resources
      */
     private void handleFriendSearchResult(final Friend f) {
-//        Log.e(TAG, f.toString());
         if (f == null) {
             String info_msg = "Usuario no encontrado";
             Toast.makeText(this, info_msg, Toast.LENGTH_SHORT).show();
         } else {
-            // TODO enviar mensaje a f
+            // TODO enviar mensaje a f (opt)
 
             // Referencia a lista de  amigos de usuario
             final DatabaseReference friendRequestsRef = mDatabaseUsersRef
@@ -288,8 +288,7 @@ public class FriendsActivity extends AppCompatActivity {
                         }
 
                         @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-                        }
+                        public void onCancelled(@NonNull DatabaseError error) { }
                     }
             );
         }

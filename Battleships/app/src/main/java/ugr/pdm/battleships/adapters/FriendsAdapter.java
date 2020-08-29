@@ -102,11 +102,10 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
         protected FirebaseUser mUser;
         protected DatabaseReference dbRef;
 
-
         /**
          * Constructor
          *
-         * @param itemView
+         * @param itemView elemento de vista a procesar
          */
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -124,45 +123,11 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
                 mDeleteButton.setOnClickListener(this);
         }
 
-        protected DatabaseReference getUserFriendReference(final Friend f) {
-            return dbRef
-                    .child(mUser.getUid())
-                    .child("friends")
-                    .child(f.getPersonId());
-        }
-
-        ;
-
-        protected DatabaseReference getUserFriendRequestReference(final Friend f) {
-            return dbRef
-                    .child(mUser.getUid())
-                    .child("friendRequests")
-                    .child(f.getPersonId());
-        }
-
-        ;
-
-        protected DatabaseReference getOtherUserFriendRequestReference(final Friend f) {
-            return dbRef
-                    .child(f.getPersonId())
-                    .child("friendRequests")
-                    .child(mUser.getUid());
-        }
-
-        ;
-
-        protected DatabaseReference getOtherUserFriendReference(final Friend f) {
-            return dbRef
-                    .child(f.getPersonId())
-                    .child("friends")
-                    .child(mUser.getUid());
-        }
-
-        ;
-
 
         /**
-         * @param friend
+         * Enlaza la vista a los datos
+         *
+         * @param friend objeto de tipo Friend que contiene los datos
          */
         public void bindTo(Friend friend) {
             if (friend != null) {
@@ -180,6 +145,40 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
 
 
         /**
+         * Devuelve una referencia de tipo DatabaseReference de Firebase apuntando al registro
+         * que representa la relación de amistad entre el usuario identificado por userId al
+         * usuario identificado por friendId
+         *
+         * @param userId el Id del usuario actual
+         * @param friendId elId del amigo
+         * @return DatabaseReference apuntando al registro requerido
+         */
+        protected DatabaseReference getUserFriendReference(final String userId, final String friendId) {
+            return dbRef
+                    .child(userId)
+                    .child("friends")
+                    .child(friendId);
+        }
+
+        /**
+         * Devuelve una referencia de tipo DatabaseReference de Firebase apuntando al registro
+         * que representa la solicitud de amistad enviada por el usuario identificado por userId al
+         * usuario identificado por friendId
+         *
+         * @param userId el Id del usuario actual
+         * @param friendId elId del amigo
+         * @return DatabaseReference apuntando al registro requerido
+         */
+        protected DatabaseReference getUserFriendRequestReference(final String userId, final String friendId) {
+            return dbRef
+                    .child(userId)
+                    .child("friendRequests")
+                    .child(friendId);
+        }
+
+
+        /**
+         * Escuchador de eventos del botón "Borrar amigo"
          * @param view
          */
         @Override
@@ -187,31 +186,14 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
             Friend f = mFriendsData.remove(getAdapterPosition());
 
             // Eliminar de Firebase
-//            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-//            DatabaseReference dbref = FirebaseDatabase.getInstance().getReference("users");
             if (mUser != null && f.getPersonId() != null) {
-                getUserFriendReference(f).removeValue();
-//                dbref
-//                    .child(user.getUid())
-//                    .child("friends")
-//                    .child(f.getPersonId())
-//                    .removeValue();
-                getOtherUserFriendReference(f).removeValue();
-//                dbref
-//                    .child(f.getPersonId())
-//                    .child("friends")
-//                    .child(user.getUid())
-//                    .removeValue();
-
-                getOtherUserFriendRequestReference(f).removeValue();
-//                dbref
-//                    .child(f.getPersonId())
-//                    .child("friendRequests")
-//                    .child(user.getUid())
-//                    .removeValue();
+                getUserFriendReference(mUser.getUid(), f.getPersonId()).removeValue();
+                getUserFriendReference(f.getPersonId(), mUser.getUid()).removeValue();
+                getUserFriendRequestReference(f.getPersonId(), mUser.getUid()).removeValue();
             }
 
             notifyDataSetChanged();
         }
+
     }
 }

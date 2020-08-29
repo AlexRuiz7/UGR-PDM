@@ -16,10 +16,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-/**
- * An example full-screen activity that shows and hides the system UI (i.e.
- * status bar and navigation/system bar) with user interaction.
- */
+
 public class MainMenuActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
 
@@ -27,6 +24,10 @@ public class MainMenuActivity extends AppCompatActivity {
     private GoogleSignInClient mGoogleSignInClient;
 
 
+    /**
+     * Método onCreate
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +53,7 @@ public class MainMenuActivity extends AppCompatActivity {
 
 
     /**
-     *
+     * Inicializa las vistas
      */
     private void initViews() {
         ImageView mBackground = findViewById(R.id.background);
@@ -65,7 +66,7 @@ public class MainMenuActivity extends AppCompatActivity {
 
 
     /**
-     *
+     * Inicializa los atributos relativos a Firebase
      */
     private void initFirebase() {
         mAuth = FirebaseAuth.getInstance();
@@ -74,7 +75,7 @@ public class MainMenuActivity extends AppCompatActivity {
 
 
     /**
-     *
+     * Crea y añade escuchadores de eventos a los botones de la IU
      */
     private void initListeners() {
         Button newGameButton = findViewById(R.id.new_game_button);
@@ -118,11 +119,4 @@ public class MainMenuActivity extends AppCompatActivity {
         });
     }
 
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-//        finish();
-//        System.exit(0);
-    }
 }
