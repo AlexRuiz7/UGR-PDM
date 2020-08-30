@@ -21,6 +21,7 @@ import java.util.ArrayList;
 
 import ugr.pdm.battleships.R;
 import ugr.pdm.battleships.models.Friend;
+import ugr.pdm.battleships.utils.CustomListeners;
 
 
 /**
@@ -193,6 +194,7 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
             }
 
             notifyDataSetChanged();
+            CustomListeners.getInstance().notifyDataSetChanged();
         }
 
     }

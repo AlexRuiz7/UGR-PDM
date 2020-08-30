@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 import ugr.pdm.battleships.R;
 import ugr.pdm.battleships.models.Friend;
+import ugr.pdm.battleships.utils.CustomListeners;
 
 
 /**
@@ -70,6 +71,7 @@ public class FriendRequestsAdapter extends FriendsAdapter {
                     }
 
                     notifyDataSetChanged();
+                    CustomListeners.getInstance().notifyDataSetChanged();
                 }
             });
 

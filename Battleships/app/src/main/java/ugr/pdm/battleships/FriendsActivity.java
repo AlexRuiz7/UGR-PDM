@@ -1,8 +1,10 @@
 package ugr.pdm.battleships;
 
 import android.os.Bundle;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -24,9 +26,10 @@ import java.util.Objects;
 import ugr.pdm.battleships.adapters.FriendRequestsAdapter;
 import ugr.pdm.battleships.adapters.FriendsAdapter;
 import ugr.pdm.battleships.models.Friend;
+import ugr.pdm.battleships.utils.CustomListeners;
 
 
-public class FriendsActivity extends AppCompatActivity {
+public class FriendsActivity extends AppCompatActivity implements CustomListeners.OnDataChangeListener {
     public static final String TAG = "FRIENDS_ACTIVITY";
 
     private RecyclerView mFriendsRecyclerView;
@@ -58,6 +61,7 @@ public class FriendsActivity extends AppCompatActivity {
         setupRecyclerView();
         loadFriends();
         loadFriendRequests();
+        CustomListeners.getInstance().setOnDataChangeListener(this);
     }
 
 
@@ -191,11 +195,11 @@ public class FriendsActivity extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         array.add(Friend.buildFromSnapshot(snapshot));
                         adapter.notifyDataSetChanged();
+                        updateUI();
                     }
 
                     @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                    }
+                    public void onCancelled(@NonNull DatabaseError error) { }
                 });
     }
 
@@ -213,6 +217,7 @@ public class FriendsActivity extends AppCompatActivity {
             if (array.get(i).getPersonId().equals(pendingFriendID)) {
                 array.remove(i);
                 adapter.notifyDataSetChanged();
+                updateUI();
             }
         }
     }
@@ -238,8 +243,7 @@ public class FriendsActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                    }
+                    public void onCancelled(@NonNull DatabaseError error) { }
                 });
     }
 
@@ -292,6 +296,47 @@ public class FriendsActivity extends AppCompatActivity {
                     }
             );
         }
+    }
+
+    /**
+     * Implemetnación de la interfaz.
+     */
+    @Override
+    public void onDataChanged() {
+        updateUI();
+    }
+
+
+    /**
+     * Actualiza los campos de textos estáticos de la interfaz, mostrando un mensaje indicando que
+     * la sección no contiene datos.
+     */
+    private void updateUI() {
+        TextView mEmptyFriendsTextView = findViewById(R.id.friends_empty_label);
+        TextView mEmptyPendingRequestsTextView = findViewById(R.id.pending_requests_empty_label);
+        TextView mEmptyFriendRequestsTextView = findViewById(R.id.requests_empty_label);
+
+        if (mFriends.isEmpty()) {
+            mEmptyFriendsTextView.setVisibility(View.VISIBLE);
+        }
+        else {
+            mEmptyFriendsTextView.setVisibility(View.GONE);
+        }
+
+        if (mFriendRequests.isEmpty()) {
+            mEmptyFriendRequestsTextView.setVisibility(View.VISIBLE);
+        }
+        else {
+            mEmptyFriendRequestsTextView.setVisibility(View.GONE);
+        }
+
+        if (mPendingFriends.isEmpty()) {
+            mEmptyPendingRequestsTextView.setVisibility(View.VISIBLE);
+        }
+        else {
+            mEmptyPendingRequestsTextView.setVisibility(View.GONE);
+        }
+
     }
 
 

@@ -24,62 +24,47 @@
                 android:queryHint="@string/friend_search_hint"
                 tools:background="@color/black_overlay" />
 
+            <!--            -->
+
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_8dp"
-                android:padding="@dimen/margin_8dp"
-                android:text="@string/friend_requests_label"
-                android:textAlignment="center"
-                android:textAllCaps="true"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                android:textStyle="bold"
-                android:typeface="serif" />
+                style="@style/friends_section_title"
+                android:text="@string/friend_requests_label" />
+
+            <TextView
+                android:id="@+id/requests_empty_label"
+                style="@style/empty_section_layout" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/friends_requests_recyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_8dp"
-                android:padding="@dimen/margin_8dp" />
+                style="@style/recycler_view" />
+
+            <!--            -->
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_8dp"
-                android:padding="@dimen/margin_8dp"
-                android:text="@string/friends_pending_label"
-                android:textAlignment="center"
-                android:textAllCaps="true"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                android:textStyle="bold"
-                android:typeface="serif" />
+                style="@style/friends_section_title"
+                android:text="@string/friends_pending_label" />
+
+            <TextView
+                android:id="@+id/pending_requests_empty_label"
+                style="@style/empty_section_layout" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/friends_pending_recyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_8dp"
-                android:padding="@dimen/margin_8dp" />
+                style="@style/recycler_view" />
+
+            <!--            -->
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_8dp"
-                android:padding="@dimen/margin_8dp"
-                android:text="@string/friends_label"
-                android:textAlignment="center"
-                android:textAllCaps="true"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                android:textStyle="bold"
-                android:typeface="serif" />
+                style="@style/friends_section_title"
+                android:text="@string/friends_label" />
+
+            <TextView
+                android:id="@+id/friends_empty_label"
+                style="@style/empty_section_layout" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/friends_recyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_8dp"
-                android:padding="@dimen/margin_8dp" />
+                style="@style/recycler_view" />
 
         </LinearLayout>
 

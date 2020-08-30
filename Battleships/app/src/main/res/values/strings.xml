@@ -19,5 +19,6 @@
     <string name="friends_label">Amigos</string>
     <string name="friend_requests_label">Peticiones</string>
     <string name="friend_accept_button">Aceptar</string>
+    <string name="empty_section_text">Nada que mostrar</string>
 
 </resources>
