@@ -20,5 +20,11 @@
     <string name="friend_requests_label">Peticiones</string>
     <string name="friend_accept_button">Aceptar</string>
     <string name="empty_section_text">Nada que mostrar</string>
+    <string name="remaining_cells_to_setup">Restantes: %d</string>
+    <string name="vertical_switch_label">Colocar en vertical</string>
+    <string name="reset_grid_label">Limpiar</string>
+    <string name="finish_setup_label">Finalizar</string>
+    <string name="setup_frame_title">Coloca tu flota</string>
+    <string name="placing_ship_label">Colocando: %s</string>
 
 </resources>

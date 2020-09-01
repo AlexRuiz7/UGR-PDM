@@ -86,7 +86,7 @@ public class MainMenuActivity extends AppCompatActivity {
         newGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainMenuActivity.this, GameActivity.class);
+                Intent intent = new Intent(MainMenuActivity.this, GameSetupActivity.class);
                 startActivity(intent);
             }
         });

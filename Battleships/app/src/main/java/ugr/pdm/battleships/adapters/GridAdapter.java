@@ -14,12 +14,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-import ugr.pdm.battleships.models.GridCell;
 import ugr.pdm.battleships.R;
+import ugr.pdm.battleships.models.Cell;
 
 public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
 
-    private ArrayList<GridCell> mGridData;
+    private ArrayList<Cell> mGridData;
     private Context mContext;
 
     /**
@@ -28,7 +28,7 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
      * @param mGridData
      * @param mContext
      */
-    public GridAdapter(ArrayList<GridCell> mGridData, Context mContext) {
+    public GridAdapter(ArrayList<Cell> mGridData, Context mContext) {
         this.mGridData = mGridData;
         this.mContext = mContext;
     }
@@ -56,7 +56,7 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         // Coger el producto actual
-        GridCell cell = mGridData.get(position);
+        Cell cell = mGridData.get(position);
 
         // Rellenar con los datos
         holder.bindTo(cell);
@@ -102,7 +102,7 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
          * @param cell
          */
         @SuppressLint("SetTextI18n")
-        public void bindTo(GridCell cell) {
+        public void bindTo(Cell cell) {
             if (cell != null) {
                 mTextView.setText(cell.getX() + ", " + cell.getY());
             }
@@ -115,7 +115,7 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
          */
         @Override
         public void onClick(View view) {
-            GridCell cell = mGridData.get(getAdapterPosition());
+            Cell cell = mGridData.get(getAdapterPosition());
             Toast.makeText(mContext, cell.getX() + ", " + cell.getY(), Toast.LENGTH_SHORT).show();
         }
     }
