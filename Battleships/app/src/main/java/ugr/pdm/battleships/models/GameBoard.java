@@ -15,23 +15,6 @@ public class GameBoard {
     private Battleship[] battleships;
 
 
-    public List<Cell> pack() {
-        List<Cell> cellsAsList = new ArrayList<>(size*size);
-
-        // Revivir barcos
-        for (Battleship b : battleships)
-            b.revive();
-
-        // Transformar matriz de celdas a List
-        for (int i = 0; i< size; i++) {
-            for (int j = 0; j < size; j++)
-                cellsAsList.add(cellViews[i][j].getModel());
-        }
-
-        return cellsAsList;
-    }
-
-
     /**
      * Constructor
      *
@@ -142,5 +125,29 @@ public class GameBoard {
                 cellViews[row][col].clear();
             }
         }
+    }
+
+
+    /**
+     * Prepara el estado del tablero para enviarlo a Firebase. Para ello restaura la salud de los
+     * barcos y transforma la matriz que representa el tablero en una lista, de forma que pueda
+     * almacenarse en Firebase
+     *
+     * @return el tablero almacenado en una lista
+     */
+    public List<Cell> pack() {
+        List<Cell> cellsAsList = new ArrayList<>(size*size);
+
+        // Revivir barcos
+        for (Battleship b : battleships)
+            b.revive();
+
+        // Transformar matriz de celdas a List
+        for (int i = 0; i< size; i++) {
+            for (int j = 0; j < size; j++)
+                cellsAsList.add(cellViews[i][j].getModel());
+        }
+
+        return cellsAsList;
     }
 }

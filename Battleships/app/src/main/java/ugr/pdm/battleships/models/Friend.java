@@ -23,9 +23,16 @@ public class Friend implements Serializable {
     /**
      * Constructor vacío requerido por Firebase
      **/
-    public Friend() {
-    }
+    public Friend() { }
 
+    /**
+     * Constructor con parámetros
+     *
+     * @param personName nombre de la usuario
+     * @param personEmail email del usuario
+     * @param personId id del usuario
+     * @param personPhoto url de la imagen de perfil del usuario
+     */
     public Friend(String personName, String personEmail, String personId, String personPhoto) {
         this.personName = personName;
         this.personEmail = personEmail;
@@ -33,6 +40,12 @@ public class Friend implements Serializable {
         this.personPhoto = personPhoto;
     }
 
+    /**
+     * Builder. Construye un nuevo objeto Friend a partir del registro de Firebase que lo almacena
+     *
+     * @param snapshot registro de Firebase
+     * @return nuevo objeto Friend o null
+     */
     public static Friend buildFromSnapshot(DataSnapshot snapshot) {
         if (snapshot.hasChildren()) {
             Friend f = snapshot.getValue(Friend.class);

@@ -76,7 +76,7 @@ public class GameSetupActivity extends AppCompatActivity
         if (requestCode == 0 && resultCode == 0 && data != null) {
             if (data.hasExtra(FriendsActivity.TAG)) {
                 Friend selectedFriend = (Friend) data.getSerializableExtra(FriendsActivity.TAG);
-                sendBattle(selectedFriend);
+                createBattle(selectedFriend);
                 Toast.makeText(this, "Invitación enviada", Toast.LENGTH_SHORT).show();
                 onBackPressed();
             }
@@ -288,10 +288,11 @@ public class GameSetupActivity extends AppCompatActivity
     }
 
     /**
+     * Registra una nueva partida en Firebase
      *
-     * @param selectedFriend
+     * @param selectedFriend amigo seleccionado como segundo jugador de la partida
      */
-    private void sendBattle(Friend selectedFriend) {
+    private void createBattle (Friend selectedFriend) {
         // Inicialización de variables necesarias
         FirebaseUser mUser = FirebaseAuth.getInstance().getCurrentUser();
         FirebaseDatabase db = FirebaseDatabase.getInstance();

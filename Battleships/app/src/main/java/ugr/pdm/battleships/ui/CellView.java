@@ -10,13 +10,9 @@ import ugr.pdm.battleships.models.Cell;
 
 public class CellView extends androidx.appcompat.widget.AppCompatImageView {
 
-//    private int column, row;
-//    private Battleship battleship;
+    // Modelo
     private Cell model;
 
-    public Cell getModel() {
-        return model;
-    }
 
     /**
      * Constructor
@@ -25,9 +21,6 @@ public class CellView extends androidx.appcompat.widget.AppCompatImageView {
      */
     public CellView(Context context) {
         super(context);
-//        column = 0;
-//        row = 0;
-//        battleship = null;
         model = new Cell();
     }
 
@@ -40,9 +33,6 @@ public class CellView extends androidx.appcompat.widget.AppCompatImageView {
      */
     public CellView(Context context, int x, int y) {
         super(context);
-//        row = x;
-//        column = y;
-//        battleship = null;
         model = new Cell(x, y, null);
         setImageResource(R.drawable.cell_shape);
         setPadding(0, 0, 0, 0);
@@ -52,7 +42,6 @@ public class CellView extends androidx.appcompat.widget.AppCompatImageView {
      * Elimina el barco de la casilla
      */
     public void clear() {
-//        battleship = null;
         model.setBattleship(null);
         setColor(Color.WHITE);
     }
@@ -63,7 +52,6 @@ public class CellView extends androidx.appcompat.widget.AppCompatImageView {
      * @param b barco a añadir
      */
     public void setBattleship(Battleship b) {
-//        this.battleship = b;
         model.setBattleship(b);
         setColor(Color.GREEN);
     }
@@ -72,7 +60,6 @@ public class CellView extends androidx.appcompat.widget.AppCompatImageView {
      * @return el barco que hay en la casilla o null
      */
     public Battleship getBattleship() {
-//        return battleship;
         return model.getBattleship();
     }
 
@@ -80,7 +67,6 @@ public class CellView extends androidx.appcompat.widget.AppCompatImageView {
      * @return true si ha un barco en la casilla
      */
     public boolean hasBattleship() {
-//        return battleship != null;
         return model.getBattleship() != null;
     }
 
@@ -88,9 +74,6 @@ public class CellView extends androidx.appcompat.widget.AppCompatImageView {
      * Daña el barco que hay en la casilla
      */
     public void damageBattleship() {
-//        battleship.addDamage();
-//        battleship = null;
-
         setColor(Color.RED);
     }
 
@@ -129,7 +112,6 @@ public class CellView extends androidx.appcompat.widget.AppCompatImageView {
      * @return la fila de la casilla
      */
     public int getRow() {
-//        return row;
         return model.getRow();
     }
 
@@ -137,7 +119,14 @@ public class CellView extends androidx.appcompat.widget.AppCompatImageView {
      * @return la columna de la casilla
      */
     public int getColumn() {
-//        return column;
         return model.getColumn();
     }
+
+    /**
+     * @return el modelo que que contiene el estado de la casilla
+     */
+    public Cell getModel() {
+        return model;
+    }
+
 }

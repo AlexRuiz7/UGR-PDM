@@ -344,22 +344,33 @@ public class FriendsActivity extends AppCompatActivity
 
     }
 
+
+    /**
+     * Sobrecarga el menú para controlar el comportamiento del botón para volver a la actividad padre
+     *
+     * @param item elemento del AppBar clickado
+     * @return true, consume el evento
+     */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             onBackPressed();
         }
-
         return true;
     }
 
 
+    /**
+     * Envía el amigo seleccionado como resultado al objeto que ha lanzado esta actividad con
+     * startActivityForResult
+     *
+     * @param f objeto de tipo Friend seleccionado a enviar
+     */
     @Override
     public void onFriendClicked(Friend f) {
         Intent selectedFriendIntent = new Intent();
         selectedFriendIntent.putExtra(TAG, f);
         setResult(0, selectedFriendIntent);
-//        Log.e(TAG, f.getPersonName());
         finish();
     }
 

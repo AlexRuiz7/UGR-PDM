@@ -48,6 +48,9 @@ public class Battleship {
         return sectionsLeft <= 0;
     }
 
+    /**
+     * Restaura la "vida" del barco
+     */
     public void revive() {
         sectionsLeft = size;
     }
