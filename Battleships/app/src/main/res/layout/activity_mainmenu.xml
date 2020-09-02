@@ -27,7 +27,16 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:textSize="18sp"
-            android:text="Iniciar partida" />
+            android:text="Nueva partida" />
+
+        <Button
+            android:id="@+id/battles_button"
+            style="?metaButtonBarButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:textSize="18sp"
+            android:text="Batallas" />
 
         <Button
             android:id="@+id/friends_button"

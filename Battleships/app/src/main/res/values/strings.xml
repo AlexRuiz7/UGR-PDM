@@ -26,5 +26,6 @@
     <string name="finish_setup_label">Finalizar</string>
     <string name="setup_frame_title">Coloca tu flota</string>
     <string name="placing_ship_label">Colocando: %s</string>
+    <string name="battles_label">Batallas</string>
 
 </resources>

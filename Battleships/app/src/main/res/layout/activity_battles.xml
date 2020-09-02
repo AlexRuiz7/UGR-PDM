@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -13,57 +12,45 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <SearchView
-                android:id="@+id/friend_searchView"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_margin="8dp"
-                android:autofillHints=""
-                android:inputType="textEmailAddress"
-                android:padding="8dp"
-                android:queryHint="@string/friend_search_hint"
-                tools:background="@color/black_overlay" />
-
-            <!--            -->
 
             <TextView
                 style="@style/section_title"
-                android:text="@string/friend_requests_label" />
+                android:text="Invitaciones" />
 
             <TextView
                 android:id="@+id/requests_empty_label"
                 style="@style/empty_section_layout" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/friends_requests_recyclerView"
+                android:id="@+id/battle_invites_recyclerView"
                 style="@style/recycler_view" />
 
             <!--            -->
 
             <TextView
                 style="@style/section_title"
-                android:text="@string/friends_pending_label" />
+                android:text="Batallas en curso" />
 
             <TextView
-                android:id="@+id/pending_requests_empty_label"
+                android:id="@+id/current_battles_empty_label"
                 style="@style/empty_section_layout" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/friends_pending_recyclerView"
+                android:id="@+id/current_battle_recyclerView"
                 style="@style/recycler_view" />
 
             <!--            -->
 
             <TextView
                 style="@style/section_title"
-                android:text="@string/friends_label" />
+                android:text="Batallas finalizadas" />
 
             <TextView
-                android:id="@+id/friends_empty_label"
+                android:id="@+id/played_battles_empty_label"
                 style="@style/empty_section_layout" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/friends_recyclerView"
+                android:id="@+id/played_battles_recyclerView"
                 style="@style/recycler_view" />
 
         </LinearLayout>

@@ -3,22 +3,18 @@
     package="ugr.pdm.battleships">
 
     <application
-        android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity
             android:name=".LoginActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name"
             android:noHistory="true"
             android:screenOrientation="sensorLandscape"
-            android:theme="@style/FullscreenTheme" />
-
-        <!-- Actividad de arranque -->
+            android:theme="@style/FullscreenTheme" /> <!-- Actividad de arranque -->
         <activity
             android:name=".MainMenuActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -31,7 +27,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".FriendsActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -43,18 +38,29 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainMenuActivity" />
         </activity>
-
         <activity
             android:name=".GameSetupActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name"
-            android:screenOrientation="sensorLandscape"
             android:parentActivityName=".MainMenuActivity"
+            android:screenOrientation="sensorLandscape"
             android:theme="@style/Theme.AppCompat">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainMenuActivity" />
         </activity>
+
+        <activity android:name=".BattlesActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/battles_label"
+            android:parentActivityName=".MainMenuActivity"
+            android:screenOrientation="sensor"
+            android:theme="@style/Theme.AppCompat">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainMenuActivity" />
+        </activity>
+
     </application>
 
 </manifest>

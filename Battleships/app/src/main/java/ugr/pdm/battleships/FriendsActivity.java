@@ -1,6 +1,8 @@
 package ugr.pdm.battleships;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.SearchView;
@@ -29,7 +31,9 @@ import ugr.pdm.battleships.models.Friend;
 import ugr.pdm.battleships.utils.CustomListeners;
 
 
-public class FriendsActivity extends AppCompatActivity implements CustomListeners.OnDataChangeListener {
+public class FriendsActivity extends AppCompatActivity
+        implements CustomListeners.OnDataChangeListener, CustomListeners.OnFriendClickedListener {
+
     public static final String TAG = "FRIENDS_ACTIVITY";
 
     private RecyclerView mFriendsRecyclerView;
@@ -62,6 +66,7 @@ public class FriendsActivity extends AppCompatActivity implements CustomListener
         loadFriends();
         loadFriendRequests();
         CustomListeners.getInstance().setOnDataChangeListener(this);
+        CustomListeners.getInstance().setFriendClickedListener(this);
     }
 
 
@@ -299,7 +304,7 @@ public class FriendsActivity extends AppCompatActivity implements CustomListener
     }
 
     /**
-     * Implemetnación de la interfaz.
+     * Implementación de la interfaz.
      */
     @Override
     public void onDataChanged() {
@@ -339,6 +344,24 @@ public class FriendsActivity extends AppCompatActivity implements CustomListener
 
     }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+        }
+
+        return true;
+    }
+
+
+    @Override
+    public void onFriendClicked(Friend f) {
+        Intent selectedFriendIntent = new Intent();
+        selectedFriendIntent.putExtra(TAG, f);
+        setResult(0, selectedFriendIntent);
+//        Log.e(TAG, f.getPersonName());
+        finish();
+    }
 
     /**
      * UTILIDAD

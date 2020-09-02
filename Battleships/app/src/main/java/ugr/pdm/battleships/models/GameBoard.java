@@ -1,13 +1,35 @@
 package ugr.pdm.battleships.models;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
+import ugr.pdm.battleships.ui.CellView;
+
 public class GameBoard {
     private static int BATTLESHIPS_COUNT = 5;
 
     private int size;
     private int shipCount;
-    private Cell[][] cells;
+    private CellView[][] cellViews;
     private Battleship[] battleships;
+
+
+    public List<Cell> pack() {
+        List<Cell> cellsAsList = new ArrayList<>(size*size);
+
+        // Revivir barcos
+        for (Battleship b : battleships)
+            b.revive();
+
+        // Transformar matriz de celdas a List
+        for (int i = 0; i< size; i++) {
+            for (int j = 0; j < size; j++)
+                cellsAsList.add(cellViews[i][j].getModel());
+        }
+
+        return cellsAsList;
+    }
 
 
     /**
@@ -17,7 +39,7 @@ public class GameBoard {
      */
     public GameBoard(final int aSize) {
         size = aSize;
-        cells = new Cell[size][size];
+        cellViews = new CellView[size][size];
         battleships = new Battleship[BATTLESHIPS_COUNT];
 
         initBattleships();
@@ -60,28 +82,28 @@ public class GameBoard {
      * Comprueba si la celda dada como parámetro es apta para añadir un barco en ella, esto es,
      * que sea adayacente a una celda con el mismo barco.
      * 
-     * @param aCell celda del tablero a comprobar
+     * @param aCellView celda del tablero a comprobar
      * @return true si es una posición válida, false en otro caso
      */
-    public boolean isValidPosition(final Cell aCell) {
-        int row = aCell.getRow();
-        int col = aCell.getColumn();
+    public boolean isValidPosition(final CellView aCellView) {
+        int row = aCellView.getRow();
+        int col = aCellView.getColumn();
 
         // Comprobación adyacente horizontal izquierda
         if (col - 1 >= 0)
-            if (cells[row][col - 1].hasBattleship())
+            if (cellViews[row][col - 1].hasBattleship())
                 return true;
         // Comprobación adyacente horizontal derecha
         if (col + 1 < size)
-            if (cells[row][col + 1].hasBattleship())
+            if (cellViews[row][col + 1].hasBattleship())
                 return true;
         // Comprobación adyacente vertical izquierda
         if (row - 1 >= 0)
-            if (cells[row - 1][col].hasBattleship())
+            if (cellViews[row - 1][col].hasBattleship())
                 return true;
         // Comprobación adyacente vertical derecha
         if (row + 1 < size)
-            if (cells[row + 1][col].hasBattleship())
+            if (cellViews[row + 1][col].hasBattleship())
                 return true;
 
         return false;
@@ -89,8 +111,7 @@ public class GameBoard {
 
 
     /**
-     * 
-     * @return
+     * @return número de barcos que quedan por colocar
      */
     public int getBattleshipsLeft() {
         return shipCount + 1;
@@ -100,13 +121,13 @@ public class GameBoard {
     /**
      * Añade una casilla al tablero
      * 
-     * @param aCell casilla a añadir
+     * @param aCellView casilla a añadir
      */
-    public void addCell(final Cell aCell) {
-        int x = aCell.getRow();
-        int y = aCell.getColumn();
+    public void addCell(final CellView aCellView) {
+        int x = aCellView.getRow();
+        int y = aCellView.getColumn();
 
-        cells[x][y] = aCell;
+        cellViews[x][y] = aCellView;
     }
     
     
@@ -118,7 +139,7 @@ public class GameBoard {
 
         for (int row = 0; row < size; row++) {
             for (int col = 0; col < size; col++) {
-                cells[row][col].clear();
+                cellViews[row][col].clear();
             }
         }
     }

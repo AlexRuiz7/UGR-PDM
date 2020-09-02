@@ -1,5 +1,6 @@
 package ugr.pdm.battleships;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -10,12 +11,20 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import ugr.pdm.battleships.models.Battle;
 import ugr.pdm.battleships.models.Battleship;
-import ugr.pdm.battleships.models.Cell;
+import ugr.pdm.battleships.models.Friend;
 import ugr.pdm.battleships.models.GameBoard;
+import ugr.pdm.battleships.ui.CellView;
 
 public class GameSetupActivity extends AppCompatActivity
         implements ViewTreeObserver.OnGlobalLayoutListener, View.OnClickListener {
@@ -24,7 +33,7 @@ public class GameSetupActivity extends AppCompatActivity
     public static final int GRID_SIZE = 10;
 
     private GameBoard playerBoard;
-    private Cell previousClickedCell;
+    private CellView previousClickedCellView;
     private Battleship currentBattleship;
 
     private boolean placeOnVertical;
@@ -32,6 +41,7 @@ public class GameSetupActivity extends AppCompatActivity
     private LinearLayout rootLayout;
     private TextView currentShipTextView;
     private TextView remainingShipsTextView;
+    private Button confirmButton;
 
 
     /**
@@ -49,6 +59,31 @@ public class GameSetupActivity extends AppCompatActivity
 
 
     /**
+     * Este método se ejecuta como resultado de la actividad lanzada por esta actividad para
+     * seleccionar al segundo jugador de la partida.
+     *
+     * Las responsabilidades de este método es recuperar el amigo seleccionado y llamar al método
+     * sendBattle que realiza las subrutinas de gestión necesarias relacionadas con Firebase
+     *
+     * @param requestCode código de petición con la que se lanzó la nueva actividad
+     * @param resultCode código de respuesta que devuelve la actividad lanzada
+     * @param data datos que devuelve la actividad lanzada
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 0 && resultCode == 0 && data != null) {
+            if (data.hasExtra(FriendsActivity.TAG)) {
+                Friend selectedFriend = (Friend) data.getSerializableExtra(FriendsActivity.TAG);
+                sendBattle(selectedFriend);
+                Toast.makeText(this, "Invitación enviada", Toast.LENGTH_SHORT).show();
+                onBackPressed();
+            }
+        }
+    }
+
+    /**
      * Inicializa las vistas
      */
     private void initViews() {
@@ -56,6 +91,8 @@ public class GameSetupActivity extends AppCompatActivity
         rootLayout.getViewTreeObserver().addOnGlobalLayoutListener(this);
         remainingShipsTextView = findViewById(R.id.remaining_setup_text);
         currentShipTextView = findViewById(R.id.current_ship_text);
+        confirmButton = findViewById(R.id.confirm_button);
+        confirmButton.setEnabled(false);
 
         initListeners();
     }
@@ -66,25 +103,26 @@ public class GameSetupActivity extends AppCompatActivity
      */
     private void initListeners () {
         Button clearGridButton = findViewById(R.id.clear_button);
-        Button confirmButton = findViewById(R.id.confirm_button);
         SwitchCompat verticalSwitch = findViewById(R.id.vertical_switch);
 
         // Click Listener del botón LIMPIAR. Resetea el tablero
         clearGridButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                confirmButton.setEnabled(false);
                 playerBoard.clearBoard();
                 resetPreviousCell();
                 getNextShip();
             }
         });
 
-        // Click Listener del botón FINALIZAR. Guarda el tablero y continua a la siguiente pantalla
+        // Click Listener del botón FINALIZAR.
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(GameSetupActivity.this, "FINALIZAR", Toast.LENGTH_SHORT).show();
-                // TODO pasar a siguiente pantalla
+                // Abre la ventana de amigos para seleccionar al segundo jugador
+                Intent selectFriendIntent = new Intent(GameSetupActivity.this, FriendsActivity.class);
+                startActivityForResult(selectFriendIntent, 0);
             }
         });
 
@@ -127,13 +165,13 @@ public class GameSetupActivity extends AppCompatActivity
             LinearLayout row = new LinearLayout(GameSetupActivity.this);
 
             for (int j = 0; j < GRID_SIZE; j++) {
-                Cell cell = new Cell(GameSetupActivity.this, i, j);
+                CellView cellView = new CellView(GameSetupActivity.this, i, j);
 
-                cell.setLayoutParams(lp);
+                cellView.setLayoutParams(lp);
 
-                cell.setOnClickListener(this);
-                row.addView(cell);
-                playerBoard.addCell(cell);
+                cellView.setOnClickListener(this);
+                row.addView(cellView);
+                playerBoard.addCell(cellView);
             }
             rootLayout.addView(row);
         }
@@ -181,6 +219,10 @@ public class GameSetupActivity extends AppCompatActivity
 
         String shipsLeft = getString(R.string.remaining_cells_to_setup, playerBoard.getBattleshipsLeft());
         remainingShipsTextView.setText(shipsLeft);
+
+        if (playerBoard.getBattleshipsLeft() == 0) {
+            confirmButton.setEnabled(true);
+        }
     }
 
 
@@ -188,7 +230,7 @@ public class GameSetupActivity extends AppCompatActivity
      *  Limpia el contenido de previousClickedCell
      */
     private void resetPreviousCell() {
-        previousClickedCell = null;
+        previousClickedCellView = null;
     }
 
 
@@ -199,12 +241,12 @@ public class GameSetupActivity extends AppCompatActivity
      */
     @Override
     public void onClick(View view) {
-        final Cell cell = (Cell) view;
+        final CellView cellView = (CellView) view;
 
         // No se aplican condicones en la primera cassilla
-        if (previousClickedCell == null) {
-            setBattleshipSection(cell);
-            previousClickedCell = cell;
+        if (previousClickedCellView == null) {
+            setBattleshipSection(cellView);
+            previousClickedCellView = cellView;
         }
         // El resto de casillas deben cumplir una serie de condiciones.
         //  1. Deben estar en la misma fila o columna dependiendo del modo seleccionado en el Switch
@@ -212,11 +254,11 @@ public class GameSetupActivity extends AppCompatActivity
         //  3. Deben quedar barcos (o secciones del mismo) por colocar
         else {
             if (placeOnVertical) {
-                if (cell.sameColumn(previousClickedCell)) {
-                    setBattleshipSection(cell);
+                if (cellView.sameColumn(previousClickedCellView)) {
+                    setBattleshipSection(cellView);
                 }
-            } else if (cell.sameRow(previousClickedCell)) {
-                setBattleshipSection(cell);
+            } else if (cellView.sameRow(previousClickedCellView)) {
+                setBattleshipSection(cellView);
             }
         }
 
@@ -226,16 +268,16 @@ public class GameSetupActivity extends AppCompatActivity
     /**
      * Coloca una sección del barco actual en el tablero, si se cumplen las condicones necesarias.
      *
-     * @param cell casilla en la que colocar la sección del barco
+     * @param cellView casilla en la que colocar la sección del barco
      */
-    private void setBattleshipSection(Cell cell) {
+    private void setBattleshipSection(CellView cellView) {
         if (currentBattleship != null) {
 
             // Se añade la sección del barco a la casilla y se elimina dicha sección del barco
             // con addDamage()
-            if (playerBoard.isValidPosition(cell) && playerBoard.getBattleshipsLeft() != 0 || previousClickedCell == null) {
+            if (playerBoard.isValidPosition(cellView) && playerBoard.getBattleshipsLeft() != 0 || previousClickedCellView == null) {
                 currentBattleship.addDamage();
-                cell.setBattleship(currentBattleship);
+                cellView.setBattleship(currentBattleship);
             }
 
             // No quedan secciones del barco por colocar, se pasa al siguiente.
@@ -243,6 +285,45 @@ public class GameSetupActivity extends AppCompatActivity
                 getNextShip();
             }
         }
+    }
+
+    /**
+     *
+     * @param selectedFriend
+     */
+    private void sendBattle(Friend selectedFriend) {
+        // Inicialización de variables necesarias
+        FirebaseUser mUser = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseDatabase db = FirebaseDatabase.getInstance();
+        DatabaseReference dbRef;
+
+        // Crear referencias y registros para la nueva partida
+        dbRef = db.getReference("battles");
+        DatabaseReference battleRef = dbRef.push();
+        String battleID = battleRef.getKey();
+
+        // Empaquetar el estado de la partida y guardar en firebase
+        Battle battle = new Battle(mUser.getUid(), selectedFriend.getPersonId(), playerBoard.pack(), null);
+        battleRef.setValue(battle);
+
+        // Apuntar referecia a users
+        dbRef = db.getReference("users");
+
+        // Enviar envitación a selectedFriend
+        // False indica que la partida no está en juego
+        dbRef
+            .child(selectedFriend.getPersonId())
+            .child("battleInvites")
+            .child(battleID)
+            .setValue(false);
+
+        // Registrar ID de partida en el perfil del usuario
+        // False indica que la partida no está en juego
+        dbRef
+            .child(mUser.getUid())
+            .child("battles")
+            .child(battleID)
+            .setValue(false);
     }
 }
 

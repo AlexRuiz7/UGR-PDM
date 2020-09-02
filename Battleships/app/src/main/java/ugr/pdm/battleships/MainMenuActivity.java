@@ -79,6 +79,7 @@ public class MainMenuActivity extends AppCompatActivity {
      */
     private void initListeners() {
         Button newGameButton = findViewById(R.id.new_game_button);
+        Button playerBattles = findViewById(R.id.battles_button);
         Button friendsButton = findViewById(R.id.friends_button);
         Button logoutButton = findViewById(R.id.logout_button);
         Button exitButton = findViewById(R.id.exit_button);
@@ -87,6 +88,14 @@ public class MainMenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainMenuActivity.this, GameSetupActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        playerBattles.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent (MainMenuActivity.this, BattlesActivity.class);
                 startActivity(intent);
             }
         });

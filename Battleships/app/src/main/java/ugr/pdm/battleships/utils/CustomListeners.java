@@ -1,5 +1,7 @@
 package ugr.pdm.battleships.utils;
 
+import ugr.pdm.battleships.models.Friend;
+
 /**
  * Interfaz necesaria para poder actualizar la interfaz de la pantalla de amigos cuando se elimina
  * un elemento, ya que el onClick listener se encuentra en el ViewHolder en sí y no en la clase
@@ -8,6 +10,7 @@ package ugr.pdm.battleships.utils;
 public class CustomListeners {
     /* Event Listener propio para permitir reaccionar a cambios de estado */
     private OnDataChangeListener listener;
+    private OnFriendClickedListener friendListener;
 
     /* Instancia única de la clase */
     private static CustomListeners instance = null;
@@ -28,7 +31,6 @@ public class CustomListeners {
 
     /* Permite cambiar el tema de la aplicación */
     public void notifyDataSetChanged() {
-
         if (listener != null)
             listener.onDataChanged();
     }
@@ -41,5 +43,21 @@ public class CustomListeners {
     /* Interfaz que implementa el Event Listener */
     public interface OnDataChangeListener {
         void onDataChanged ();
+    }
+
+    /* Permite agregar un Event Listener personalizado */
+    public void setFriendClickedListener (OnFriendClickedListener listener) {
+        this.friendListener = listener;
+    }
+
+    //
+    public void onFriendTouched(Friend f) {
+        if (friendListener != null)
+            friendListener.onFriendClicked(f);
+    }
+
+    /* Interfaz */
+    public interface OnFriendClickedListener {
+        void onFriendClicked(Friend f);
     }
 }

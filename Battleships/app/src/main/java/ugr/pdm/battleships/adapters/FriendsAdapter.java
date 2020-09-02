@@ -122,6 +122,15 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
             // Listeners
             if (mDeleteButton != null)
                 mDeleteButton.setOnClickListener(this);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Friend f = mFriendsData.get(getAdapterPosition());
+                    CustomListeners.getInstance().onFriendTouched(f);
+//                    Log.e("ADAPTER", f.getPersonName());
+                }
+            });
         }
 
 
