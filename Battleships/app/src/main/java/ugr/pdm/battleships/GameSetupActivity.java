@@ -35,6 +35,7 @@ public class GameSetupActivity extends AppCompatActivity
     private GameBoard playerBoard;
     private CellView previousClickedCellView;
     private Battleship currentBattleship;
+    private Battle currentBattle;
 
     private boolean placeOnVertical;
 
@@ -52,6 +53,12 @@ public class GameSetupActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_setup_layout);
         initViews();
+
+        currentBattle = null;
+        // Recuperamos el estado de la partida
+        if (getIntent().hasExtra(BattlesActivity.TAG)) {
+            currentBattle = (Battle) getIntent().getSerializableExtra(BattlesActivity.TAG);
+        }
 
         playerBoard = new GameBoard(GRID_SIZE);
         getNextShip();
@@ -120,9 +127,16 @@ public class GameSetupActivity extends AppCompatActivity
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Abre la ventana de amigos para seleccionar al segundo jugador
-                Intent selectFriendIntent = new Intent(GameSetupActivity.this, FriendsActivity.class);
-                startActivityForResult(selectFriendIntent, 0);
+                if (currentBattle == null) {
+                    // Abre la ventana de amigos para seleccionar al segundo jugador
+                    Intent selectFriendIntent = new Intent(GameSetupActivity.this, FriendsActivity.class);
+                    startActivityForResult(selectFriendIntent, 0);
+                } else {
+                    currentBattle.setPlayerTowBoard(playerBoard.pack());
+                    DatabaseReference battleRef = FirebaseDatabase.getInstance().getReference("battles");
+                    battleRef.child(currentBattle.getBattleID()).setValue(currentBattle);
+                    onBackPressed();
+                }
             }
         });
 
@@ -319,12 +333,11 @@ public class GameSetupActivity extends AppCompatActivity
             .setValue(false);
 
         // Registrar ID de partida en el perfil del usuario
-        // False indica que la partida no está en juego
         dbRef
-            .child(mUser.getUid())
-            .child("battles")
-            .child(battleID)
-            .setValue(false);
+                .child(mUser.getUid())
+                .child("battles")
+                .child(battleID)
+                .setValue(true);
     }
 }
 

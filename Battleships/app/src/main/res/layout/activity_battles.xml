@@ -18,7 +18,7 @@
                 android:text="Invitaciones" />
 
             <TextView
-                android:id="@+id/requests_empty_label"
+                android:id="@+id/battle_invites_empty_label"
                 style="@style/empty_section_layout" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -36,7 +36,7 @@
                 style="@style/empty_section_layout" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/current_battle_recyclerView"
+                android:id="@+id/current_battles_recyclerView"
                 style="@style/recycler_view" />
 
             <!--            -->

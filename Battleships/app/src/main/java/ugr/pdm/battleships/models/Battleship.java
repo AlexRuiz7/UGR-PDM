@@ -1,11 +1,18 @@
 package ugr.pdm.battleships.models;
 
-public class Battleship {
+import java.io.Serializable;
+
+public class Battleship implements Serializable {
 
     private int sectionsLeft;
     private int size;
     private String name;
 
+    /**
+     * Constructor vacío requerido por Firebase
+     **/
+    public Battleship() {
+    }
 
     /**
      * Constructor

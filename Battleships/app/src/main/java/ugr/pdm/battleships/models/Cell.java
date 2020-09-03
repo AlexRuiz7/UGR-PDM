@@ -4,12 +4,14 @@ package ugr.pdm.battleships.models;
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 
+import java.io.Serializable;
+
 
 /**
  * Clase que representa el estado de una casilla
  */
 @IgnoreExtraProperties
-public class Cell {
+public class Cell implements Serializable {
 
     /**
      * Atributos

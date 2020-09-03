@@ -1,5 +1,6 @@
 package ugr.pdm.battleships.utils;
 
+import ugr.pdm.battleships.models.Battle;
 import ugr.pdm.battleships.models.Friend;
 
 /**
@@ -11,6 +12,7 @@ public class CustomListeners {
     /* Event Listener propio para permitir reaccionar a cambios de estado */
     private OnDataChangeListener listener;
     private OnFriendClickedListener friendListener;
+    private OnBattleAcceptedListener battleListener;
 
     /* Instancia única de la clase */
     private static CustomListeners instance = null;
@@ -59,5 +61,20 @@ public class CustomListeners {
     /* Interfaz */
     public interface OnFriendClickedListener {
         void onFriendClicked(Friend f);
+    }
+
+
+    public void setBattleAcceptedListener(OnBattleAcceptedListener listener) {
+        battleListener = listener;
+    }
+
+    public void onBattleAccepted(Battle b) {
+        if (battleListener != null) {
+            battleListener.onBattleAccepted(b);
+        }
+    }
+
+    public interface OnBattleAcceptedListener {
+        void onBattleAccepted(Battle b);
     }
 }

@@ -51,6 +51,7 @@ public class FriendsActivity extends AppCompatActivity
 
     /**
      * Método onCreate
+     *
      * @param savedInstanceState
      */
     @Override
@@ -135,22 +136,23 @@ public class FriendsActivity extends AppCompatActivity
                 .child(mUser.getUid())
                 .child("friends")
                 .addValueEventListener(
-                    new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            for (DataSnapshot obj : snapshot.getChildren()) {
-                                if (Objects.equals(obj.getValue(), true)) {
-                                    loadFriend(obj, mFriends, mFriendsAdapter);
-                                    updatePendingRequests(obj.getKey(), mPendingFriends, mPendingFriendsAdapter);
-                                } else {
-                                    loadFriend(obj, mPendingFriends, mPendingFriendsAdapter);
+                        new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                for (DataSnapshot obj : snapshot.getChildren()) {
+                                    if (Objects.equals(obj.getValue(), true)) {
+                                        loadFriend(obj, mFriends, mFriendsAdapter);
+                                        updatePendingRequests(obj.getKey(), mPendingFriends, mPendingFriendsAdapter);
+                                    } else {
+                                        loadFriend(obj, mPendingFriends, mPendingFriendsAdapter);
+                                    }
                                 }
                             }
-                        }
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) { }
-                    }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                            }
+                        }
                 );
     }
 
@@ -163,29 +165,30 @@ public class FriendsActivity extends AppCompatActivity
                 .child(mUser.getUid())
                 .child("friendRequests")
                 .addValueEventListener(
-                    new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            for (DataSnapshot obj : snapshot.getChildren()) {
-                                if (Objects.equals(obj.getValue(), true)) {
-                                    loadFriend(obj, mFriends, mFriendsAdapter);
-                                    updatePendingRequests(obj.getKey(), mFriendRequests, mFriendRequestsAdapter);
-                                } else {
-                                    loadFriend(obj, mFriendRequests, mFriendRequestsAdapter);
+                        new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                for (DataSnapshot obj : snapshot.getChildren()) {
+                                    if (Objects.equals(obj.getValue(), true)) {
+                                        loadFriend(obj, mFriends, mFriendsAdapter);
+                                        updatePendingRequests(obj.getKey(), mFriendRequests, mFriendRequestsAdapter);
+                                    } else {
+                                        loadFriend(obj, mFriendRequests, mFriendRequestsAdapter);
+                                    }
                                 }
                             }
-                        }
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) { }
-                    }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                            }
+                        }
                 );
     }
 
 
     /**
      * Carga los datos de un usuario desde Firebase, dado el registro snapshot que lo contiene.
-     * Representa al usuario en un objeto de tipo Friend  y lo almacena en el vector que le
+     * Representa al usuario en un objeto de tipo Friend y lo almacena en el vector que le
      * corresponde (array). Actualiza la interfaz.
      *
      * @param snapshot registro de FirebaseDatabase
@@ -204,7 +207,8 @@ public class FriendsActivity extends AppCompatActivity
                     }
 
                     @Override
-                    public void onCancelled(@NonNull DatabaseError error) { }
+                    public void onCancelled(@NonNull DatabaseError error) {
+                    }
                 });
     }
 
@@ -216,6 +220,8 @@ public class FriendsActivity extends AppCompatActivity
      * mPendingFriends, y en tal caso, lo elimina de dicho vector
      *
      * @param pendingFriendID ID del usuario a buscar
+     * @param array           vector en el que almacenar el usuario
+     * @param adapter         adaptador enlzada a array. Se llama a su método de actualización
      */
     private void updatePendingRequests(String pendingFriendID, final ArrayList<Friend> array, final FriendsAdapter adapter) {
         for (int i = 0; i < array.size(); i++) {
@@ -248,7 +254,8 @@ public class FriendsActivity extends AppCompatActivity
                     }
 
                     @Override
-                    public void onCancelled(@NonNull DatabaseError error) { }
+                    public void onCancelled(@NonNull DatabaseError error) {
+                    }
                 });
     }
 
@@ -297,7 +304,8 @@ public class FriendsActivity extends AppCompatActivity
                         }
 
                         @Override
-                        public void onCancelled(@NonNull DatabaseError error) { }
+                        public void onCancelled(@NonNull DatabaseError error) {
+                        }
                     }
             );
         }
@@ -323,25 +331,21 @@ public class FriendsActivity extends AppCompatActivity
 
         if (mFriends.isEmpty()) {
             mEmptyFriendsTextView.setVisibility(View.VISIBLE);
-        }
-        else {
+        } else {
             mEmptyFriendsTextView.setVisibility(View.GONE);
         }
 
         if (mFriendRequests.isEmpty()) {
             mEmptyFriendRequestsTextView.setVisibility(View.VISIBLE);
-        }
-        else {
+        } else {
             mEmptyFriendRequestsTextView.setVisibility(View.GONE);
         }
 
         if (mPendingFriends.isEmpty()) {
             mEmptyPendingRequestsTextView.setVisibility(View.VISIBLE);
-        }
-        else {
+        } else {
             mEmptyPendingRequestsTextView.setVisibility(View.GONE);
         }
-
     }
 
 
