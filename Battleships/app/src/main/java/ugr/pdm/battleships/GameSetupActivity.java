@@ -32,17 +32,17 @@ public class GameSetupActivity extends AppCompatActivity
     private static final String TAG = "GameSetupActivity";
     public static final int GRID_SIZE = 10;
 
-    private GameBoard playerBoard;
+    protected GameBoard playerOneBoard;
     private CellView previousClickedCellView;
     private Battleship currentBattleship;
-    private Battle currentBattle;
+    protected Battle currentBattle;
 
     private boolean placeOnVertical;
 
-    private LinearLayout rootLayout;
+    protected LinearLayout rootLayout;
     private TextView currentShipTextView;
     private TextView remainingShipsTextView;
-    private Button confirmButton;
+    protected Button confirmButton;
 
 
     /**
@@ -58,9 +58,10 @@ public class GameSetupActivity extends AppCompatActivity
         // Recuperamos el estado de la partida
         if (getIntent().hasExtra(BattlesActivity.TAG)) {
             currentBattle = (Battle) getIntent().getSerializableExtra(BattlesActivity.TAG);
+            currentBattle.changeTurn();
         }
 
-        playerBoard = new GameBoard(GRID_SIZE);
+        playerOneBoard = new GameBoard(GRID_SIZE);
         getNextShip();
     }
 
@@ -117,7 +118,7 @@ public class GameSetupActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 confirmButton.setEnabled(false);
-                playerBoard.clearBoard();
+                playerOneBoard.clearBoard();
                 resetPreviousCell();
                 getNextShip();
             }
@@ -132,7 +133,7 @@ public class GameSetupActivity extends AppCompatActivity
                     Intent selectFriendIntent = new Intent(GameSetupActivity.this, FriendsActivity.class);
                     startActivityForResult(selectFriendIntent, 0);
                 } else {
-                    currentBattle.setPlayerTowBoard(playerBoard.pack());
+                    currentBattle.setPlayerTwoBoard(playerOneBoard.pack());
                     DatabaseReference battleRef = FirebaseDatabase.getInstance().getReference("battles");
                     battleRef.child(currentBattle.getBattleID()).setValue(currentBattle);
                     onBackPressed();
@@ -180,12 +181,10 @@ public class GameSetupActivity extends AppCompatActivity
 
             for (int j = 0; j < GRID_SIZE; j++) {
                 CellView cellView = new CellView(GameSetupActivity.this, i, j);
-
                 cellView.setLayoutParams(lp);
-
                 cellView.setOnClickListener(this);
                 row.addView(cellView);
-                playerBoard.addCell(cellView);
+                playerOneBoard.addCell(cellView);
             }
             rootLayout.addView(row);
         }
@@ -199,7 +198,7 @@ public class GameSetupActivity extends AppCompatActivity
      * @param layoutSize tamaño del layout
      * @return nuevos parámetros de tipo LayoutParams
      */
-    private GridLayout.LayoutParams getNewLayoutParams(int layoutSize) {
+    protected GridLayout.LayoutParams getNewLayoutParams(int layoutSize) {
         GridLayout.LayoutParams lp = new GridLayout.LayoutParams();
         lp.width = layoutSize;
         lp.height = layoutSize;
@@ -215,7 +214,7 @@ public class GameSetupActivity extends AppCompatActivity
      * Recupera el siguiente barco a colocar y llama a actualizar la IU
      */
     private void getNextShip() {
-        currentBattleship = playerBoard.getNextBattleship();
+        currentBattleship = playerOneBoard.getNextBattleship();
         resetPreviousCell();
         updateUI();
     }
@@ -231,10 +230,10 @@ public class GameSetupActivity extends AppCompatActivity
         }
         currentShipTextView.setText(currentShipName);
 
-        String shipsLeft = getString(R.string.remaining_cells_to_setup, playerBoard.getBattleshipsLeft());
+        String shipsLeft = getString(R.string.remaining_cells_to_setup, playerOneBoard.getBattleshipsLeft());
         remainingShipsTextView.setText(shipsLeft);
 
-        if (playerBoard.getBattleshipsLeft() == 0) {
+        if (playerOneBoard.getBattleshipsLeft() == 0) {
             confirmButton.setEnabled(true);
         }
     }
@@ -257,7 +256,7 @@ public class GameSetupActivity extends AppCompatActivity
     public void onClick(View view) {
         final CellView cellView = (CellView) view;
 
-        // No se aplican condicones en la primera cassilla
+        // No se aplican condiciones en la primera cassilla
         if (previousClickedCellView == null) {
             setBattleshipSection(cellView);
             previousClickedCellView = cellView;
@@ -289,7 +288,7 @@ public class GameSetupActivity extends AppCompatActivity
 
             // Se añade la sección del barco a la casilla y se elimina dicha sección del barco
             // con addDamage()
-            if (playerBoard.isValidPosition(cellView) && playerBoard.getBattleshipsLeft() != 0 || previousClickedCellView == null) {
+            if (playerOneBoard.isValidPosition(cellView) && playerOneBoard.getBattleshipsLeft() != 0 || previousClickedCellView == null) {
                 currentBattleship.addDamage();
                 cellView.setBattleship(currentBattleship);
             }
@@ -318,7 +317,7 @@ public class GameSetupActivity extends AppCompatActivity
         String battleID = battleRef.getKey();
 
         // Empaquetar el estado de la partida y guardar en firebase
-        Battle battle = new Battle(mUser.getUid(), selectedFriend.getPersonId(), playerBoard.pack(), null);
+        Battle battle = new Battle(mUser.getUid(), selectedFriend.getPersonId(), playerOneBoard.pack(), null);
         battleRef.setValue(battle);
 
         // Apuntar referecia a users

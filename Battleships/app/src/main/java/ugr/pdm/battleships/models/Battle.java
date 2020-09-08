@@ -10,6 +10,7 @@ import java.util.List;
 public class Battle implements Serializable {
     private String playerOneID, playerTwoID;
     private List<Cell> playerOneBoard, playerTwoBoard;
+    private boolean hasFinished, playerOneHasTurn;
     @Exclude
     private String battleID;
 
@@ -27,6 +28,8 @@ public class Battle implements Serializable {
         this.playerTwoID = playerTwoID;
         this.playerOneBoard = playerOneBoard;
         this.playerTwoBoard = playerTwoBoard;
+        hasFinished = false;
+        playerOneHasTurn = false;
     }
 
     /**
@@ -67,7 +70,7 @@ public class Battle implements Serializable {
     /**
      * @param board tablero del jugador 2
      */
-    public void setPlayerTowBoard(List<Cell> board) {
+    public void setPlayerTwoBoard(List<Cell> board) {
         playerTwoBoard = board;
     }
 
@@ -84,5 +87,60 @@ public class Battle implements Serializable {
      */
     public void setBattleID(String id) {
         battleID = id;
+    }
+
+    /**
+     * @return true si ha acabado la partida
+     */
+    public boolean hasFinished() {
+        return hasFinished;
+    }
+
+    public boolean getHasFinished() {
+        return hasFinished;
+    }
+
+    public void setFinished() {
+        hasFinished = true;
+    }
+
+    public boolean getPlayerOneHasTurn() {
+        return playerOneHasTurn;
+    }
+
+    public boolean playerOneHasTurn() {
+        return playerOneHasTurn;
+    }
+
+    public void changeTurn() {
+        playerOneHasTurn = !playerOneHasTurn;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Battle battle = (Battle) o;
+        return battleID.equals(battle.battleID);
+    }
+
+    @Override
+    public int hashCode() {
+        return java.util.Objects.hashCode(battleID);
+    }
+
+    @Override
+    public String toString() {
+        return "Battle{" +
+                "playerOneID='" + playerOneID + '\'' +
+                ", playerTwoID='" + playerTwoID + '\'' +
+                ", hasFinished=" + hasFinished +
+                ", battleID='" + battleID + '\'' +
+                '}';
+    }
+
+    public void update(List<Cell> boardOne, List<Cell> boardTwo) {
+        playerOneBoard = boardOne;
+        playerTwoBoard = boardTwo;
     }
 }

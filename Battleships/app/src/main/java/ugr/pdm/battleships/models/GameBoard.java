@@ -143,11 +143,15 @@ public class GameBoard {
             b.revive();
 
         // Transformar matriz de celdas a List
-        for (int i = 0; i< size; i++) {
+        for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++)
                 cellsAsList.add(cellViews[i][j].getModel());
         }
 
         return cellsAsList;
+    }
+
+    public CellView getCell(int row, int col) {
+        return cellViews[row][col];
     }
 }

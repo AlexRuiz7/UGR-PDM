@@ -1,6 +1,8 @@
 package ugr.pdm.battleships.models;
 
 
+import android.graphics.Color;
+
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 
@@ -37,6 +39,7 @@ public class Cell implements Serializable {
         this.row = row;
         this.column = column;
         this.battleship = battleship;
+        color = Color.WHITE;
     }
 
     @Exclude
@@ -59,9 +62,16 @@ public class Cell implements Serializable {
 
     public void setBattleship(Battleship b) {
         this.battleship = b;
+        setColor(Color.GREEN);
     }
 
     public void setColor(int aColor) {
         color = aColor;
+    }
+
+    public void damageBattleship() {
+        battleship.addDamage();
+        battleship = null;
+        color = Color.RED;
     }
 }

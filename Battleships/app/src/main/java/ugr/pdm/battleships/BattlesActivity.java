@@ -120,14 +120,10 @@ public class BattlesActivity extends AppCompatActivity
                         new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                mBattles.clear();
+                                mBattlesPlayed.clear();
                                 for (DataSnapshot obj : snapshot.getChildren()) {
-                                    if (Objects.equals(obj.getValue(), true)) {
-                                        loadBattle(obj, mBattles, mBattlesAdapter);
-                                        remove(obj.getKey(), mBattlesPlayed, mBattlesPlayedAdapter);
-                                    } else {
-                                        remove(obj.getKey(), mBattles, mBattlesAdapter);
-                                        loadBattle(obj, mBattlesPlayed, mBattlesPlayedAdapter);
-                                    }
+                                    loadBattle2(obj);
                                 }
                             }
 
@@ -136,6 +132,45 @@ public class BattlesActivity extends AppCompatActivity
                             }
                         }
                 );
+    }
+
+
+    private void loadBattle2(DataSnapshot snapshot) {
+        mDatabaseBattlesRef
+                .child(Objects.requireNonNull(snapshot.getKey()))
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists()) {
+                            Battle b = snapshot.getValue(Battle.class);
+                            b.setBattleID(snapshot.getKey());
+                            // Si ya existe, actualizar
+                            //  - Actualizar objeto
+                            //  - Actualizar ViewHolder
+                            //  - Si ha cambiado de sección: eliminar y añadir
+                            // En otro caso, añadir a batallas (nueva)
+                            int index = mBattles.indexOf(b);
+                            if (index != -1 && mBattles.get(index).hasFinished() == b.hasFinished()) {
+                                mBattles.set(index, b);
+                            } else {
+                                if (b.hasFinished()) {
+                                    remove(snapshot.getKey(), mBattles, mBattlesAdapter);
+                                    mBattlesPlayed.add(b);
+                                } else {
+                                    remove(snapshot.getKey(), mBattlesPlayed, mBattlesPlayedAdapter);
+                                    mBattles.add(b);
+                                }
+                            }
+                            mBattlesAdapter.notifyDataSetChanged();
+                            mBattlesPlayedAdapter.notifyDataSetChanged();
+                            updateUI();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                    }
+                });
     }
 
 
@@ -172,6 +207,8 @@ public class BattlesActivity extends AppCompatActivity
      * Carga los datos de una batalla desde Firebase, dado el registro snapshot que lo contiene.
      * Representa la batalla en un objeto de tipo Battle y lo almacena en el vector que le
      * corresponde (array). Actualiza la interfaz.
+     * <p>
+     * TODO sacar actualización de interfaz y adapter
      *
      * @param snapshot registro de FirebaseDatabase
      * @param array    vector en el que almacenar la batalla

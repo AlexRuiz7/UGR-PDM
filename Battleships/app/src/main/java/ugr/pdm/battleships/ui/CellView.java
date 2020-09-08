@@ -22,6 +22,8 @@ public class CellView extends androidx.appcompat.widget.AppCompatImageView {
     public CellView(Context context) {
         super(context);
         model = new Cell();
+        setImageResource(R.drawable.cell_shape);
+        setPadding(0, 0, 0, 0);
     }
 
     /**
@@ -32,10 +34,9 @@ public class CellView extends androidx.appcompat.widget.AppCompatImageView {
      * @param y columna del tablero
      */
     public CellView(Context context, int x, int y) {
-        super(context);
+        this(context);
         model = new Cell(x, y, null);
-        setImageResource(R.drawable.cell_shape);
-        setPadding(0, 0, 0, 0);
+        setColor(Color.WHITE);
     }
 
     /**
@@ -75,6 +76,7 @@ public class CellView extends androidx.appcompat.widget.AppCompatImageView {
      */
     public void damageBattleship() {
         setColor(Color.RED);
+        model.damageBattleship();
     }
 
     /**
@@ -83,11 +85,10 @@ public class CellView extends androidx.appcompat.widget.AppCompatImageView {
      * @param aColor nuevo color
      */
     private void setColor(final int aColor) {
-        model.setColor(aColor);
         GradientDrawable drawable = (GradientDrawable) getDrawable();
         drawable.setColor(aColor);
     }
-    
+
     /**
      * Comprueba si la casilla dada como parámetro está en la misma fila
      *
@@ -129,4 +130,20 @@ public class CellView extends androidx.appcompat.widget.AppCompatImageView {
         return model;
     }
 
+    public void setModel(Cell model) {
+        this.model = model;
+        setColor(model.getColor());
+    }
+
+    public void setMissed() {
+        if (model.getColor() != Color.RED) {
+            setColor(Color.GRAY);
+            model.setColor(Color.GRAY);
+        }
+    }
+
+    public void hide() {
+        if (hasBattleship())
+            setColor(Color.WHITE);
+    }
 }

@@ -1,11 +1,14 @@
 package ugr.pdm.battleships.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,6 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import ugr.pdm.battleships.GameActivity;
 import ugr.pdm.battleships.R;
 import ugr.pdm.battleships.models.Battle;
 import ugr.pdm.battleships.models.Friend;
@@ -93,7 +97,7 @@ public class BattlesAdapter extends RecyclerView.Adapter<BattlesAdapter.ViewHold
     /**
      * Clase ViweHolder, representa cada elemento del RecyclerView
      */
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         /**
          * Atributos. Contenedores visuales en los que introducir los datos
@@ -102,10 +106,12 @@ public class BattlesAdapter extends RecyclerView.Adapter<BattlesAdapter.ViewHold
         protected TextView mPlayerOneDisplayName;
         private ImageView mPlayerTwoImageView;
         private TextView mPlayerTwoDisplayName;
+        private View mHolder;
 
         protected FirebaseUser mUser;
         protected DatabaseReference usersRef;
 
+        private Battle mBattle;
         private Friend mPlayerOne, mPlayerTwo;
 
         /**
@@ -121,9 +127,11 @@ public class BattlesAdapter extends RecyclerView.Adapter<BattlesAdapter.ViewHold
             mPlayerOneDisplayName = itemView.findViewById(R.id.player_one_displayName);
             mPlayerTwoImageView = itemView.findViewById(R.id.player_two_photo);
             mPlayerTwoDisplayName = itemView.findViewById(R.id.player_two_displayName);
+            mHolder = itemView;
 
             mUser = FirebaseAuth.getInstance().getCurrentUser();
             usersRef = FirebaseDatabase.getInstance().getReference("users");
+            itemView.setOnClickListener(this);
         }
 
 
@@ -134,10 +142,24 @@ public class BattlesAdapter extends RecyclerView.Adapter<BattlesAdapter.ViewHold
          */
         public void bindTo(Battle b) {
             if (b != null) {
+                mBattle = b;
                 loadPlayerOne(b.getPlayerOneID());
                 loadPlayerTwo(b.getPlayerTwoID());
+                onTurnChanged(b.playerOneHasTurn());
+
+                if (mBattle.hasFinished()) {
+                    mHolder.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent playIntent = new Intent(mContext, GameActivity.class);
+                            playIntent.putExtra(GameActivity.TAG, mBattle);
+                            mContext.startActivity(playIntent);
+                        }
+                    });
+                }
             }
         }
+
 
         /**
          * Carga los datos del jugador 1 desde Firebase
@@ -162,6 +184,7 @@ public class BattlesAdapter extends RecyclerView.Adapter<BattlesAdapter.ViewHold
                             }
                     );
         }
+
 
         /**
          * Carga los datos del jugador 2 desde Firebase
@@ -200,6 +223,30 @@ public class BattlesAdapter extends RecyclerView.Adapter<BattlesAdapter.ViewHold
                         .load(player.getPersonPhoto())
                         .fitCenter()
                         .into(container);
+            }
+        }
+
+        @Override
+        public void onClick(View view) {
+            if (mBattle.playerOneHasTurn() && mUser.getUid().equals(mBattle.getPlayerOneID()) ||
+                    !mBattle.playerOneHasTurn() && mUser.getUid().equals(mBattle.getPlayerTwoID())) {
+                Intent playIntent = new Intent(mContext, GameActivity.class);
+                playIntent.putExtra(GameActivity.TAG, mBattle);
+                mContext.startActivity(playIntent);
+            } else {
+                Toast.makeText(mContext, "No es tu turno", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+
+        public void onTurnChanged(boolean playerOneHasTurn) {
+            int hasTurnColor = mContext.getResources().getColor(R.color.hasTurn);
+            if (playerOneHasTurn) {
+                mPlayerOneDisplayName.setBackgroundColor(hasTurnColor);
+                mPlayerTwoDisplayName.setBackgroundColor(Color.TRANSPARENT);
+            } else {
+                mPlayerOneDisplayName.setBackgroundColor(Color.TRANSPARENT);
+                mPlayerTwoDisplayName.setBackgroundColor(hasTurnColor);
             }
         }
     }

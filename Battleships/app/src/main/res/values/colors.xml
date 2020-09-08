@@ -6,4 +6,6 @@
 
     <color name="black_overlay">#66000000</color>
     <color name="background">#0099cc</color>
+
+    <color name="hasTurn">#8000DCC8</color>
 </resources>

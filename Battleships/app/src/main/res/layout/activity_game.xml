@@ -1,86 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
-    android:padding="16dp"
-    tools:context=".GameSetupActivity">
+    android:background="@color/background">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:baselineAligned="false"
-        android:orientation="horizontal">
+    <!--    <LinearLayout-->
+    <!--        android:id="@id/game_board"-->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:layout_height="0dp"-->
+    <!--        android:orientation="vertical"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toStartOf="@id/menu_frame"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent" />-->
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical">
+    <!--    <LinearLayout-->
+    <!--        android:id="@+id/menu_frame"-->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:layout_height="0dp"-->
+    <!--        android:background="@color/black_overlay"-->
+    <!--        android:orientation="vertical"-->
+    <!--        android:padding="@dimen/margin_8dp"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toEndOf="@+id/game_board"-->
+    <!--        app:layout_constraintTop_toTopOf="parent">-->
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/enemy_fleet"
-                android:textAlignment="center"
-                android:textAllCaps="true"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textStyle="bold" />
+    <!--        <TextView-->
+    <!--            android:id="@+id/game_current_player_label"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_margin="@dimen/margin_8dp"-->
+    <!--            android:padding="16dp"-->
+    <!--            android:textAlignment="center"-->
+    <!--            android:textAllCaps="true"-->
+    <!--            android:textAppearance="@style/TextAppearance.AppCompat.Title"-->
+    <!--            android:textColor="@color/colorAccent"-->
+    <!--            android:textStyle="bold"-->
+    <!--            app:layout_constraintTop_toTopOf="parent"-->
+    <!--            tools:text="game_frame_title" />-->
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/enemyFleetGridView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="1dp"
-                android:background="@color/black_overlay"
-                android:clipToPadding="false"
-                android:overScrollMode="never"
-                android:padding="@dimen/item_offet" />
+    <!--        <LinearLayout-->
+    <!--            android:id="@+id/game2"-->
+    <!--            android:layout_width="0dp"-->
+    <!--            android:layout_height="0dp"-->
+    <!--            android:gravity="center"-->
+    <!--            android:orientation="vertical" />-->
 
-            <!--            <GridView-->
-            <!--                android:id="@+id/enemyFleetGridView"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:background="@color/black_overlay"-->
-            <!--                android:layout_height="match_parent"-->
-            <!--                android:layout_marginEnd="1dp"/>-->
+    <!--        &lt;!&ndash;        <TextView&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:id="@+id/remaining_setup_text"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:layout_width="match_parent"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:layout_height="wrap_content"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:layout_margin="@dimen/margin_8dp"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:text="@string/remaining_cells_to_setup"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:textAlignment="center"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:textAppearance="@style/TextAppearance.AppCompat.Widget.Switch" />&ndash;&gt;-->
 
-        </LinearLayout>
+    <!--        &lt;!&ndash;        <TextView&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:id="@+id/current_ship_text"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:layout_width="match_parent"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:layout_height="wrap_content"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:layout_margin="@dimen/margin_8dp"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:text="@string/placing_ship_label"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:textAlignment="center"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:textAppearance="@style/TextAppearance.AppCompat.Widget.Switch" />&ndash;&gt;-->
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical">
+    <!--        &lt;!&ndash;        <androidx.appcompat.widget.SwitchCompat&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:id="@+id/vertical_switch"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            style="@style/TextAppearance.AppCompat.Widget.Switch"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:layout_width="wrap_content"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:layout_height="wrap_content"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:layout_gravity="center"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:layout_margin="@dimen/margin_8dp"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:outlineProvider="paddedBounds"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:text="@string/vertical_switch_label"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            app:switchPadding="@dimen/margin_8dp" />&ndash;&gt;-->
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/my_fleet"
-                android:textAlignment="center"
-                android:textAllCaps="true"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textStyle="bold" />
+    <!--        <LinearLayout-->
+    <!--            android:id="@+id/buttons_frame"-->
+    <!--            style="?metaButtonBarStyle"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="match_parent"-->
+    <!--            android:layout_margin="@dimen/margin_8dp"-->
+    <!--            android:gravity="bottom"-->
+    <!--            android:orientation="horizontal">-->
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/myFleetGridView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="1dp"
-                android:background="@color/black_overlay"
-                android:clipToPadding="false"
-                android:overScrollMode="never"
-                android:padding="@dimen/item_offet" />
+    <!--            <Button-->
+    <!--                android:id="@+id/clear_button"-->
+    <!--                style="?metaButtonBarButtonStyle"-->
+    <!--                android:layout_width="0dp"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_weight="1"-->
+    <!--                android:text="Alternar" />-->
 
-            <!--            <GridView-->
-            <!--                android:id="@+id/myFleetGridView"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:background="@color/black_overlay"-->
-            <!--                android:layout_height="match_parent"-->
-            <!--                android:layout_marginEnd="1dp"/>-->
+    <!--            <Button-->
+    <!--                android:id="@+id/confirm_button"-->
+    <!--                style="?metaButtonBarButtonStyle"-->
+    <!--                android:layout_width="0dp"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_weight="1"-->
+    <!--                android:text="@string/finish_setup_label"-->
+    <!--                app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--                app:layout_constraintTop_toTopOf="parent" />-->
+    <!--        </LinearLayout>-->
 
-        </LinearLayout>
+    <!--    </LinearLayout>-->
 
-    </LinearLayout>
-
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
